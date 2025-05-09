@@ -1,0 +1,91 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import FullCta from "../components/FullCta.astro";
+import heroImage from "../assets/images/pricing/hero.jpg"; // You'll need this image
+import IconBoxes from "../components/IconBoxes.astro";
+import FAQ from "../components/FAQ.astro";
+import faqImage from "../assets/images/pricing/faq.jpg";
+
+const title = "Simple, [Transparent] Pricing For The Modern Firm's Sites";
+const items = [
+  {
+    icon: "fa-regular fa-browser",
+    title: "Get Your Firm Page Subscription",
+    description: "Egestas augue ut vel tempus quisque. Morbi facilisis at in.",
+  },
+  {
+    icon: "fa-regular fa-hand-holding-box",
+    title: "We'll Deliver Your New Site",
+    description:
+      "Sed tristique tristique quis sed iaculis faucibus. Sed hab itasse nisi suscipit posu ere.",
+  },
+  {
+    icon: "fa-regular fa-infinity",
+    title: "You'll Get Unlimited Updates",
+    description:
+      "Fames vivamus commodo eu metus. Arcu in in viverra sed lorem mattis convallis euisd.",
+  },
+  {
+    icon: "fa-regular fa-ruler",
+    title: "Design Refresh Every 36 months",
+    description:
+      "Porttitor venenatis iaculis turpis non diam ipsum nisl. Consectetur auctor elit.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Korem ipsum dolor sit amet, consectetur adipiscing elit.",
+    answer:
+      "Quam eget tincidunt velit, eget ornare diam morbi scelerisque. Leo lorem est quis lectus pharetra ut. Sit pulvinar vitae sed non neque, congue non. Vitae, id pellentesque mus turpis morbi. Eget augue turpis amet libero amet.",
+  },
+  {
+    question: "Dorem ipsum dolor sit amet",
+    answer: "Et, in ac amet in. Eget amet adipiscing dapibus sed duis.",
+  },
+  {
+    question: "Yorem ipsum dolor sit amet consectetur",
+    answer:
+      "Quam eget tincidunt velit, eget ornare diam morbi scelerisque. Leo lorem est quis lectus pharetra ut.",
+  },
+  {
+    question: "Torem ipsum dolor sit",
+    answer:
+      "Sit pulvinar vitae sed non neque, congue non. Vitae, id pellentesque mus turpis morbi.",
+  },
+  {
+    question: "Borem ipsum dolor sit amet, consectetur adipiscing elit.",
+    answer:
+      "Eget augue turpis amet libero amet. Et, in ac amet in. Eget amet adipiscing dapibus sed duis.",
+  },
+];
+---
+
+<Layout title="Simple, Transparent Pricing | FirmPage">
+  <Hero
+    title={title}
+    image={heroImage}
+    description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+    priceBox={{
+      price: "499",
+      period: "Month",
+      description: "No hidden fees. No surprises.",
+      buttonText: "SIGN UP",
+      buttonLink: "/signup",
+    }}
+  />
+  <IconBoxes
+    title="Whats Included"
+    subtitle="SOME BENEFITS"
+    titleAlign="right"
+    items={items}
+  />
+  <FAQ title="Frequently Asked Questions" items={faqItems} image={faqImage} />
+  <FullCta
+    title="Ready To Solve Your Firm's Website Woes?"
+    image={heroImage}
+    link="/contact"
+    buttonText="Get Started Today"
+  />
+</Layout>

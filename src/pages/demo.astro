@@ -1,0 +1,176 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Title from "../components/Title.astro";
+import IconBoxes from "../components/IconBoxes.astro";
+import ChecklistSplit from "../components/ChecklistSplit.astro";
+import TestimonialScroller from "../components/TestimonialScoller.astro";
+import SimpleBoxes from "../components/SimpleBoxes.astro";
+import FullCta from "../components/FullCta.astro";
+import { Image } from "astro:assets";
+
+import heroImage from "../assets/images/home/hero.jpg";
+
+const items = [
+  {
+    title: "Get Your Firm Page Subscription",
+    description:
+      "Sed tristique tristique quis sed iaculis faucibus. Sed hab itasse nisi suscipit posu ere.",
+    icon: "fa-laptop-mobile",
+  },
+  {
+    title: "We'll Deliver Your New Site",
+    description:
+      "Sed tristique tristique quis sed iaculis faucibus. Sed hab itasse nisi suscipit posu ere.",
+    icon: "fa-hand-holding-box",
+  },
+  {
+    title: "You'll Get Unlimited Updates",
+    description:
+      "Sed tristique tristique quis sed iaculis faucibus. Sed hab itasse nisi suscipit posu ere.",
+    icon: "fa-infinity",
+  },
+  {
+    title: "Design Refresh Every 36 months",
+    description:
+      "Sed tristique tristique quis sed iaculis faucibus. Sed hab itasse nisi suscipit posu ere.",
+    icon: "fa-palette",
+  },
+];
+
+const checklistItems = [
+  {
+    title: "No large upfront cost",
+  },
+  {
+    title: "Fully managed platform",
+  },
+  {
+    title: "Unlimited changes included",
+  },
+  {
+    title: "Your website is always up-to-date",
+  },
+  {
+    title: "One flat monthly fee",
+  },
+];
+
+const simpleBoxes = [
+  {
+    title: "Say goodbye to large capital expenses, and other fees.",
+    description:
+      "Get started with a professional website without a big initial investment.",
+    image: "https://picsum.photos/800/600?random=1",
+  },
+  {
+    title: "Let us handle every website update, change, and addition.",
+    description:
+      "We take care of all your website needs so you can focus on your business.",
+    image: "https://picsum.photos/800/600?random=2",
+  },
+  {
+    title: "Let us handle every website update, change, and addition.",
+    description:
+      "Request updates and changes whenever you need them, at no extra cost.",
+    image: "https://picsum.photos/800/600?random=3",
+  },
+];
+---
+
+<Layout>
+  <section class="section">
+    <div class="container is-fluid">
+      <div class="columns is-vcentered">
+        <div class="column">
+          <p class="subtitle is-6 has-text-grey mb-2">LOREM IPSUM DOLOR</p>
+          <h1 class="title is-1 mb-5">
+            See How Simple Managing Your Firm's Website Can Be
+          </h1>
+          <div class="content">
+            <p class="has-text-grey">
+              Non nisl, bibendum mattis nibh ac. A vitae natoque pellentesque
+              malesuada aenean felis et nec vel. Nulla non lacus, vel turpis
+              ultrices donec diam vel. Pretium at platea ut vestibulum. Diam
+              duis vel turpis tempus, et diam praesent. Quam vivamus duis in
+              tortor porttitor aliquam nec nisi. Consequat et vitae lacus mi
+              facilisis dui odio.
+            </p>
+          </div>
+          <div class="video-container mt-6">
+            <iframe
+              width="100%"
+              height="400"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Product Demo Video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="column is-4 is-offset-1" id="book">
+          <div class="calendar-widget p-6">
+            <h2 class="title is-2 has-text-white mb-5">Schedule A Demo</h2>
+            <!-- Google Calendar Appointment Scheduling -->
+            <iframe
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ25uaU_04br_Ujq2RhbXxEgsnG949KtVxSHDP4nI3DxWurPUntjVfDw3KNe49lF5t8lPAER0A3S?gv=true"
+              style="border: 0;aspect-ratio: 16/9;"
+              width="100%"
+              height="1200"
+              frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="has-background-light">
+      <IconBoxes
+        title="How it works"
+        subtitle="The last website you'll ever need"
+        button={false}
+        items={items}
+      />
+      <ChecklistSplit
+        subtitle="the last website you'll ever need"
+        title="Why Firm Page?"
+        items={checklistItems}
+        buttonText="Get Started Today"
+        buttonUrl="/contact"
+        showButton={true}
+        mediaOnRight={false}
+        imageSrc={heroImage}
+        imageAlt="Why choose Firm Page"
+      />
+    </div>
+  </section>
+  <TestimonialScroller />
+  <FullCta
+    title="Ready To Solve Your Firm's Website Woes?"
+    image={heroImage}
+    link="#book"
+    buttonText="Get Started Today"
+  />
+
+  <style lang="scss">
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 4px;
+
+      iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .calendar-widget {
+      border-radius: 4px;
+    }
+  </style>
+</Layout>

@@ -1,0 +1,62 @@
+---
+import Title from "../components/Title.astro";
+import UniversalImage from "./UniversalImage.astro";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  titleSize?: 1 | 2 | 3 | 4 | 5 | 6;
+  subtitle?: string;
+  description: string;
+  buttonText?: string;
+  buttonUrl?: string;
+  showButton?: boolean;
+  mediaOnRight?: boolean;
+  imageSrc: ImageMetadata | string;
+  imageAlt: string;
+}
+
+const {
+  title = "Sign Up",
+  titleSize = 2,
+  subtitle = "",
+  description = "Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et.",
+  buttonText = "",
+  buttonUrl = "",
+  showButton = false,
+  mediaOnRight = true,
+  imageSrc,
+  imageAlt = "Content Image",
+} = Astro.props;
+
+function processTitle(text: string): string {
+  return text.replace(
+    /\[([^\]]+)\]/g,
+    '<span class="has-text-primary">$1</span>'
+  );
+}
+---
+
+<section class="section">
+  <div class="container is-fluid">
+    <div
+      class={`columns is-vcentered is-centered ${mediaOnRight ? "" : "is-flex-direction-row-reverse"}`}
+    >
+      <div class={`column is-5 ${mediaOnRight ? "pr-6" : "pl-6"}`}>
+        <Title
+          size={titleSize}
+          class={`is-${titleSize}`}
+          preHeading={subtitle ?? ""}
+          text={title ?? ""}
+        />
+        <div class="content">
+          <p>{description}</p>
+        </div>
+      </div>
+
+      <div class="column is-5">
+        <UniversalImage src={imageSrc} alt={imageAlt} class="object-cover" />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,149 @@
+---
+import type { ImageMetadata } from "astro";
+import Title from "./Title.astro";
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title: string;
+  items: FAQItem[];
+  image: ImageMetadata;
+}
+
+const { title, items, image } = Astro.props;
+
+// Generate FAQ Schema
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<section class="section px-0 my-5">
+  <div class="has-background-dark px-6">
+    <div class="container is-fluid">
+      <div class="columns is-vcentered">
+        <div class="column is-5">
+          <figure class="image is-4by5" style="margin-block:-3rem;">
+            <img src={image.src} alt="FAQ Image" />
+          </figure>
+        </div>
+        <div class="column is-7">
+          <div class="content mb-6">
+            <Title text={title} size={2} class="is-2 has-text-white" />
+          </div>
+          <div class="faq-list">
+            {
+              items.map((item) => (
+                <details class="py-5 has-border">
+                  <summary class="title is-4 has-text-white has-text-weight-normal is-flex is-justify-content-space-between is-align-items-center pb-0">
+                    {item.question}
+                    <span class="icon has-text-primary">
+                      <i class="fa-sharp fa-light fa-plus icon-rotate" />
+                    </span>
+                  </summary>
+                  <p class="has-text-white-bis mt-5 pr-6">{item.answer}</p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inject FAQ Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <style lang="scss">
+    details {
+      color: #fff;
+      padding: 1rem;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:first-child {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      > p {
+        padding-block: 1rem;
+      }
+
+      summary {
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+
+        .icon-rotate {
+          display: inline-block;
+          transition: transform 0.3s ease;
+        }
+      }
+
+      &[open] {
+        .icon-rotate {
+          transform: rotate(45deg);
+        }
+
+        &::details-content {
+          block-size: auto;
+        }
+      }
+
+      &::details-content {
+        block-size: 0;
+        transition:
+          block-size 0.3s,
+          content-visibility 0.3s;
+        transition-behavior: allow-discrete;
+      }
+    }
+  </style>
+</section>
+
+<!-- Add this script after the existing styles -->
+<script>
+  function setupFAQ() {
+    const details = document.querySelectorAll("details");
+
+    details.forEach((detail) => {
+      detail.addEventListener("click", (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        // If the clicked item is already open, don't close it
+        if (target && target.tagName === "SUMMARY" && !detail.open) {
+          // Close all other details
+          details.forEach((otherDetail) => {
+            if (otherDetail !== detail) {
+              otherDetail.open = false;
+            }
+          });
+        }
+      });
+    });
+  }
+
+  // Setup on initial load and after view transitions
+  document.addEventListener("astro:page-load", setupFAQ);
+  // Backup in case view transitions aren't enabled
+  document.addEventListener("DOMContentLoaded", setupFAQ);
+</script>

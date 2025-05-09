@@ -1,0 +1,272 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Title from "../../components/Title.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import FullCta from "../../components/FullCta.astro";
+import heroImage from "../../assets/images/home/hero.jpg";
+
+let examples: CollectionEntry<"examples">[] = [];
+let categories: string[] = [];
+
+try {
+  examples = await getCollection("examples");
+  console.log("Found examples:", examples);
+
+  // Get unique categories from examples collection
+  categories = [
+    ...new Set(examples.map((example) => example.data.category)),
+  ].sort();
+  console.log("Categories:", categories);
+} catch (error) {
+  console.error("Error loading examples:", error);
+}
+
+const title = "See The [Results] For Yourself";
+---
+
+<Layout title="See The [Results] For Yourself | Examples">
+  <section class="section is-medium">
+    <div class="container is-fluid">
+      <Breadcrumb />
+
+      <!-- Header -->
+      <div class="mb-6 content is-large">
+        <Title text={title} size={1} class="is-1" />
+        <p>Real stories from firms just like yours.</p>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filters mb-5 is-right">
+        <ul>
+          <li class="is-active" data-category="all">
+            <a>All</a>
+          </li>
+          {
+            categories.map((category) => (
+              <li data-category={category}>
+                <a>{category}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Examples Grid -->
+      <div class="columns is-multiline" id="examples-grid">
+        {
+          examples.map((example) => (
+            <div
+              class="column is-4"
+              data-category={example.data.category}
+              data-id={example.id}
+            >
+              <a href={`/examples/${example.id}`} class="card-link">
+                <div class="card is-shadowless is-clipped">
+                  <div class="card-image">
+                    <figure class="image is-3by2">
+                      <img
+                        src={example.data.featured_image}
+                        alt={example.data.clientName}
+                        class="has-ratio"
+                      />
+                      <div class="overlay-content">
+                        <span class="tag is-light is-uppercase has-text-weight-medium is-absolute-top-right">
+                          {example.data.category}
+                        </span>
+                        <div class="content-container p-6">
+                          <h3 class="title is-3 has-text-white mb-0">
+                            {example.data.clientName}
+                          </h3>
+                          <p class="has-text-white-bis description-text">
+                            {example.data.description}
+                          </p>
+                        </div>
+                      </div>
+                    </figure>
+                  </div>
+                </div>
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <FullCta
+    title="Ready To Solve Your Firm's Website Woes?"
+    image={heroImage}
+    link="/contact"
+    buttonText="Get Started Today"
+  />
+</Layout>
+<style>
+  /* Remove all border radius */
+  .card,
+  .card-image,
+  .image,
+  .tag {
+    border-radius: 0 !important;
+  }
+
+  .overlay-content {
+    position: absolute;
+    inset: 0;
+    background: hsla(
+      var(--bulma-dark-h),
+      var(--bulma-dark-s),
+      var(--bulma-dark-l),
+      0.7
+    );
+  }
+
+  /* Position utilities that Bulma doesn't provide */
+  .is-absolute-top-right {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .content-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .description-text {
+    height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .card:hover .content-container {
+    transform: translateY(-2rem);
+  }
+
+  .card:hover .description-text {
+    height: auto;
+    opacity: 1;
+  }
+
+  .object-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 1px solid var(--bulma-grey-light);
+  }
+
+  .filters ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    padding-bottom: 0.5rem;
+  }
+
+  .filters li {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .filters li a {
+    color: hsl(var(--bulma-grey-h), var(--bulma-grey-s), var(--bulma-grey-l));
+    transition: color 0.3s ease;
+  }
+
+  .filters li:hover a {
+    color: var(--bulma-primary);
+  }
+
+  .filters li.is-active a {
+    color: var(--bulma-primary);
+  }
+
+  .filters li.is-active::after {
+    content: "";
+    position: absolute;
+    bottom: -0.6rem;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--bulma-primary);
+  }
+
+  /* Simplify the filtering styles */
+  .column[data-category] {
+    display: block;
+  }
+
+  .column.is-hidden {
+    display: none;
+  }
+
+  .card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-link:hover {
+    color: inherit;
+  }
+</style>
+
+<script>
+  function setupFilters() {
+    const filters = document.querySelectorAll<HTMLElement>(".filters li");
+    const examples = document.querySelectorAll<HTMLElement>(
+      "#examples-grid .column"
+    );
+
+    if (!filters.length || !examples.length) return;
+
+    filters.forEach((filter) => {
+      filter.addEventListener("click", (e) => {
+        // Stop event from reaching the document
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        // Update active filter
+        filters.forEach((f) => f.classList.remove("is-active"));
+        filter.classList.add("is-active");
+
+        const selectedCategory = filter.dataset.category;
+
+        // Filter examples
+        examples.forEach((example) => {
+          if (
+            selectedCategory === "all" ||
+            example.dataset.category === selectedCategory
+          ) {
+            example.classList.remove("is-hidden");
+          } else {
+            example.classList.add("is-hidden");
+          }
+        });
+      });
+    });
+
+    // Prevent clicks within the grid from bubbling up
+    const grid = document.getElementById("examples-grid");
+    if (grid) {
+      grid.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+    }
+  }
+
+  // Setup filters on page load and view transitions
+  document.addEventListener("astro:page-load", setupFilters);
+  // Backup in case view transitions aren't enabled
+  document.addEventListener("DOMContentLoaded", setupFilters);
+</script>

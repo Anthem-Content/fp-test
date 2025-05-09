@@ -1,14 +1,19 @@
 {
-  "name": "",
+  "name": "firm-page",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "build-bulma": "sass --style=compressed --load-path=node_modules src/styles/styles.scss public/styles/styles.css",
+    "start-bulma": "npm run build-bulma -- --watch"
   },
   "dependencies": {
-    "astro": "^5.1.7"
+    "@glidejs/glide": "^3.7.1",
+    "astro": "^5.2.3",
+    "bulma": "^1.0.3",
+    "sass": "^1.83.4"
   }
 }

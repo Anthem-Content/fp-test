@@ -1,0 +1,113 @@
+---
+import Title from "./Title.astro";
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  button?: boolean;
+  buttonText?: string;
+  buttonLink?: string;
+  titleAlign?: "left" | "right";
+  items: {
+    title: string;
+    description: string;
+    icon: string;
+  }[];
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  button,
+  buttonText,
+  buttonLink,
+  items,
+  titleAlign = "left",
+} = Astro.props;
+---
+
+<div class="py-6 py-5-desktop px-3 px-5-desktop">
+  <div class="container is-fluid">
+    <div
+      class={`columns is-mobile is-multiline is-vcentered ${titleAlign === "right" ? "is-flex-direction-row-reverse" : ""}`}
+    >
+      <div
+        class={`column is-12-mobile is-auto-tablet ${titleAlign === "right" ? "has-text-right-tablet" : ""}`}
+      >
+        <Title
+          size={2}
+          class="is-2 has-text-centered-mobile"
+          preHeadingClass="has-text-centered-mobile"
+          preHeading={subtitle ?? ""}
+          text={title ?? ""}
+        />
+      </div>
+      {
+        button && (
+          <div class="column is-12-mobile is-narrow-tablet is-narrow-desktop has-text-centered-mobile is-hidden-mobile">
+            <a href={buttonLink} class="button is-primary is-outlined">
+              {buttonText}
+            </a>
+          </div>
+        )
+      }
+    </div>
+    <div
+      class="columns is-multiline mt-4 mt-5-desktop is-justify-content-space-between"
+    >
+      {
+        items.map((item, index) => (
+          <div
+            class="column is-12-mobile is-6-tablet is-narrow-desktop px-4 py-5"
+            data-aos="fade-up"
+            data-aos-delay={100 * index}
+            data-aos-duration="600"
+          >
+            <div class="icon-box has-text-centered-mobile is-flex is-flex-direction-row is-align-items-center">
+              <span class="icon is-large has-text-primary mr-4">
+                <i class={`fa-sharp fa-light ${item.icon} fa-2x`} />
+              </span>
+              <div class="content">
+                <h3 class="title is-4 mb-2 mt-0">{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    {
+      button && (
+        <div class="has-text-centered mt-5 is-hidden-tablet">
+          <a href={buttonLink} class="button is-primary is-outlined">
+            {buttonText}
+          </a>
+        </div>
+      )
+    }
+  </div>
+</div>
+<style>
+  .icon-box {
+    height: 100%;
+  }
+
+  .icon-box .content {
+    flex: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    .icon-box {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center;
+    }
+
+    .icon-box .icon {
+      margin-right: 0 !important;
+      margin-bottom: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Title from "./Title.astro";
+
+interface Props {
+  subtitle?: string;
+  title: string;
+  description?: string;
+  image: ImageMetadata;
+  imagePosition?: "left" | "right";
+}
+
+const {
+  subtitle,
+  title,
+  description,
+  image,
+  imagePosition = "right",
+} = Astro.props;
+---
+
+<section class="hero section pt-0-desktop">
+  <div class="container is-fluid">
+    <div class="columns is-multiline">
+      <div
+        class="column is-flex is-align-items-center is-justify-content-center"
+      >
+        <div class="content is-large">
+          <Title
+            text={title}
+            size={1}
+            class="is-1 mt-0"
+            preHeading={subtitle}
+          />
+          {description && <p>{description}</p>}
+        </div>
+      </div>
+      <div class="column is-12-tablet is-three-fifths-desktop">
+        <figure class="image">
+          <Image
+            src={image}
+            alt={title}
+            class={`hero-image ${imagePosition === "left" ? "is-reverse" : ""}`}
+          />
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <style lang="scss" scoped>
+    .hero-image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    figure.image {
+      height: 100%;
+    }
+
+    .content {
+      padding-block: 5vw;
+    }
+  </style>
+</section>

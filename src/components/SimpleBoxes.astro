@@ -1,0 +1,48 @@
+---
+import Title from "./Title.astro";
+import UniversalImage from "./UniversalImage.astro";
+import type { ImageMetadata } from "astro";
+
+interface SimpleBox {
+  title: string;
+  image: ImageMetadata | string;
+}
+
+interface Props {
+  title: string;
+  boxes: SimpleBox[];
+}
+
+const { title = "Simplify Your Website Management", boxes = [] } = Astro.props;
+---
+
+<section class="section is-medium">
+  <div class="container">
+    <div class="has-text-centered mb-6">
+      <Title size={2} text={title} class="is-2" />
+    </div>
+
+    <div class="columns">
+      {
+        boxes.map((box: SimpleBox) => (
+          <div class="column">
+            <div class="columns is-gapless">
+              <div class="column is-5">
+                <UniversalImage
+                  src={box.image}
+                  alt={box.title}
+                  class="is-3by4 object-cover"
+                />
+              </div>
+              <div class="column has-background-light is-flex is-flex-direction-column is-justify-content-center">
+                <div class="content p-5">
+                  <p class="has-text-grey">{box.title}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

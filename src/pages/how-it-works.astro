@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Title from "../components/Title.astro";
+import MediaSplit from "../components/MediaSplit.astro";
+import FullCta from "../components/FullCta.astro";
+import ComparisonList from "../components/ComparisonList.astro";
+
+import heroImage from "../assets/images/home/hero.jpg";
+---
+
+<Layout>
+  <Hero
+    title="How Your Firm's Managed Website [Works]"
+    description="Welcome to the seamless solution designed to save money, and time while ensuring your website is always up-to-date."
+    image={heroImage}
+    button={true}
+    buttonVideo={true}
+    buttonText="Experience the Difference"
+    buttonIcon="fa-play"
+    youtubeId="dQw4w9WgXcQ"
+  />
+  <section class="section">
+    <div class="has-background-light pt-6">
+      <div class="container my-6">
+        <Title
+          size={2}
+          preHeading="The last website you'll ever need"
+          preHeadingClass="has-text-centered"
+          class="is-2 has-text-centered"
+          text="How it works"
+        />
+      </div>
+
+      <MediaSplit
+        title="Sign Up"
+        subtitle="Onboarding Consultation"
+        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        imageSrc="https://picsum.photos/800/600?random=1"
+        imageAlt="Sign Up"
+        mediaOnRight={false}
+      />
+      <MediaSplit
+        title="Building Begins"
+        subtitle="We Build Your Website"
+        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        imageSrc="https://picsum.photos/800/600?random=2"
+        imageAlt="Sign Up"
+        mediaOnRight={true}
+      />
+      <MediaSplit
+        title="Full Service"
+        subtitle="We Manage Everything"
+        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        imageSrc="https://picsum.photos/800/600?random=3"
+        imageAlt="Sign Up"
+        mediaOnRight={false}
+      />
+      <MediaSplit
+        title="Site Refresh"
+        subtitle="Updated Design"
+        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        imageSrc="https://picsum.photos/800/600?random=4"
+        imageAlt="Sign Up"
+        mediaOnRight={true}
+      />
+    </div>
+  </section>
+  <ComparisonList
+    title="Why Choose Our Managed Service Over Traditional Models?"
+    subtitle="WHY IT IS DIFFERENT"
+    items={[
+      {
+        traditional: "Expensive upfront costs",
+        firmPage: "Flat monthly fee",
+      },
+      {
+        traditional: "Maintenance headaches",
+        firmPage: "No maintenance worries",
+      },
+      {
+        traditional: "Outdated designs",
+        firmPage: "Always up-to-date websites",
+      },
+    ]}
+  />
+
+  <FullCta
+    title="Ready To Solve Your Firm's Website Woes?"
+    image={heroImage}
+    link="/contact"
+  />
+</Layout>

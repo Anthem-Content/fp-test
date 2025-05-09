@@ -1,0 +1,26 @@
+clientName: "Sutton Frost Cary"
+url: "https://www.sfcllp.com"
+youtubeId: "dQw4w9WgXcQ"
+category: "Finance"
+description: "Porttitor venenatis iaculis turpis non diam ipsum nisl."
+featured_image: "/images/examples/sfc/featured.jpg"
+gallery:
+  title: "See It In Action"
+  description: "Porttitor venenatis iaculis turpis non diam ipsum nisl."
+  previews:
+    desktop: "/images/examples/sfc/gallery/desktop.png"
+    tablet: "/images/examples/sfc/gallery/tablet.png"
+    mobile: "/images/examples/sfc/gallery/phone.png"
+  images:
+    - "/images/examples/sfc/gallery/1.jpg"
+    - "/images/examples/sfc/gallery/2.jpg"
+    - "/images/examples/sfc/gallery/3.jpg"
+    - "/images/examples/sfc/gallery/4.jpg"
+    - "/images/examples/sfc/gallery/5.jpg"
+testimonial:
+  quote: "Val ut amet tincidunt ullamcorper praesent. Quis consequat in eu id diam ut laoreet nisl lorem. Mi ut pretium nivis mauris pellentesque eget tristique. Gravida volutpat bibendum habitant blandit purus."
+  name: "Jeffrey Jefferson"
+  title: "Managing Partner"
+cta:
+  text: "Ready To Solve Your Firm's Website Woes?"
+  buttonText: "Get Started Today" 

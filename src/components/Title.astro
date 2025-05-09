@@ -1,0 +1,41 @@
+---
+import { formatTitleWithHighlights } from "../utils/textFormatting";
+
+interface Props {
+  text: string;
+  size?: 1 | 2 | 3 | 4 | 5 | 6;
+  class?: string;
+  preHeading?: string;
+  preHeadingClass?: string;
+}
+
+const {
+  text,
+  size = 1,
+  class: className = "",
+  preHeading = "",
+  preHeadingClass = "",
+} = Astro.props;
+const formattedParts = formatTitleWithHighlights(text);
+const Tag = `h${size}`;
+---
+
+{
+  preHeading && (
+    <div class:list={["subtitle", size !== 1 && "is-7", preHeadingClass]}>
+      {preHeading}
+    </div>
+  )
+}
+
+<Tag class:list={["title", className, preHeading ? "mt-0" : ""]}>
+  {
+    formattedParts.map((part) =>
+      part.highlight ? (
+        <span class="has-text-primary">{part.text}</span>
+      ) : (
+        part.text
+      )
+    )
+  }
+</Tag>

@@ -1,0 +1,192 @@
+---
+import Title from "./Title.astro";
+
+interface FeatureItem {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  showDescriptionOnHover?: boolean;
+  items: FeatureItem[];
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  showDescriptionOnHover = false,
+  items,
+} = Astro.props;
+---
+
+<div class="py-6 px-5">
+  <div class="container">
+    {
+      (title || subtitle) && (
+        <div class="has-text-centered mb-6">
+          <Title
+            size={2}
+            class="is-2"
+            preHeading={subtitle ?? ""}
+            text={title ?? ""}
+          />
+          {description && <p class="mt-3">{description}</p>}
+        </div>
+      )
+    }
+
+    <div class="feature-grid">
+      {
+        items.map((item, index) => {
+          // Calculate row and column for staggered effect
+          const rowDelay = Math.floor(index / 4) * 50;
+          const colDelay = (index % 4) * 50;
+          const totalDelay = rowDelay + colDelay;
+
+          return (
+            <div
+              class="feature-item"
+              data-aos="zoom-in"
+              data-aos-delay={totalDelay}
+              data-aos-duration="600"
+            >
+              <div class="feature-content">
+                <div class="feature-front">
+                  <div class="feature-icon">
+                    <span class="icon is-large has-text-primary">
+                      <i class={`fa-sharp fa-light ${item.icon} fa-2x`} />
+                    </span>
+                  </div>
+                  <h3 class="title is-5 mb-2">{item.title}</h3>
+                </div>
+                <div class="feature-description">
+                  <p>{item.description}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .feature-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .feature-item {
+    padding: 1.25rem;
+    border-radius: 8px;
+    text-align: center;
+    height: 100%;
+    background-color: #fff;
+    overflow: hidden;
+    position: relative;
+    box-shadow: none;
+    transition:
+      transform 0.5s ease-in-out,
+      box-shadow 0.5s ease-in-out,
+      color 0.5s ease-in-out;
+  }
+
+  .feature-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bulma-primary);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 0;
+  }
+
+  .feature-item:hover::before {
+    opacity: 1;
+  }
+
+  .feature-item:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-5px);
+    color: white;
+  }
+
+  .feature-content {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .feature-front {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .feature-item:hover .feature-front {
+    opacity: 0;
+  }
+
+  .feature-icon {
+    margin-bottom: 1rem;
+  }
+
+  .feature-description {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    padding: 0 0.5rem;
+  }
+
+  .feature-item:hover .feature-description {
+    opacity: 1;
+  }
+
+  .feature-description p {
+    color: white;
+    text-align: center;
+    width: 100%;
+  }
+
+  .feature-item:hover .title {
+    color: white;
+    transition: color 0.5s ease-in-out;
+  }
+</style>

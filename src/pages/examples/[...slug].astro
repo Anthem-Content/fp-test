@@ -1,0 +1,464 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Title from "../../components/Title.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import FullCta from "../../components/FullCta.astro";
+
+// Generate static paths for all examples
+export async function getStaticPaths() {
+  const examples = await getCollection("examples");
+  return examples.map((example) => ({
+    params: { slug: example.id },
+    props: { example },
+  }));
+}
+
+const { example } = Astro.props;
+const {
+  clientName,
+  youtubeId,
+  gallery,
+  testimonial,
+  cta,
+  featured_image,
+  url,
+} = example.data;
+---
+
+<Layout title={`${clientName} | Examples`}>
+  <!-- Modal for full preview -->
+  <div class="modal" id="preview-modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="preview-container">
+        <img src="" alt="Full preview" id="modal-preview-image" />
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+
+  <section class="section">
+    <div class="container is-fluid">
+      <Breadcrumb />
+
+      <!-- Header -->
+      <div class="mb-6">
+        <Title text={clientName} size={1} class="is-1" />
+      </div>
+
+      <!-- Video Section -->
+      <div class="columns">
+        <div class="column">
+          <div class="image is-16by9">
+            <iframe
+              class="has-ratio"
+              width="100%"
+              height="400"
+              src={`https://www.youtube.com/embed/${youtubeId}`}
+              title="Product Demo Video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Gallery Section -->
+  <section class="section">
+    <div class="container is-fluid">
+      <div
+        class="is-flex is-justify-content-space-between is-align-items-center mb-6"
+      >
+        <div>
+          <Title text={gallery.title} size={2} class="is-2 mb-0" />
+          <p>{gallery.description}</p>
+        </div>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button is-primary is-outlined"
+        >
+          <span>View Live Site</span>
+          <span class="icon">
+            <i class="fa-sharp fa-regular fa-arrow-up-right-from-square"></i>
+          </span>
+        </a>
+      </div>
+      <div class="gallery-grid">
+        <!-- Website Preview Sections -->
+        <div class="preview preview-tablet device-frame">
+          <img
+            src={gallery.previews?.tablet}
+            alt="Tablet view"
+            loading="lazy"
+          />
+          <div class="preview-overlay">
+            <span class="icon">
+              <i class="fa-sharp fa-regular fa-magnifying-glass-plus"></i>
+            </span>
+          </div>
+        </div>
+        <div class="preview preview-mobile device-frame">
+          <img
+            src={gallery.previews?.mobile}
+            alt="Mobile view"
+            loading="lazy"
+          />
+          <div class="preview-overlay">
+            <span class="icon">
+              <i class="fa-sharp fa-regular fa-magnifying-glass-plus"></i>
+            </span>
+          </div>
+        </div>
+        <div class="preview preview-desktop device-frame">
+          <img
+            src={gallery.previews?.desktop}
+            alt="Desktop view"
+            loading="lazy"
+          />
+          <div class="preview-overlay">
+            <span class="icon">
+              <i class="fa-sharp fa-regular fa-magnifying-glass-plus"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Greyscale Images -->
+        {
+          gallery.images?.map((image, index) => (
+            <div class={`gallery-item gallery-item-${index + 1}`}>
+              <img src={image} alt="Gallery item" loading="lazy" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <blockquote class="content is-large">
+        <p class="has-text-centered mb-6">{testimonial.quote}</p>
+        <footer class="has-text-centered">
+          <strong>{testimonial.name}</strong><br />
+          <small>{testimonial.title}</small>
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+  <FullCta
+    title={cta.text}
+    buttonText={cta.buttonText}
+    link="/demo"
+    image={featured_image}
+  />
+</Layout>
+
+<style lang="scss">
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 20vh);
+    gap: 0.5rem;
+    margin-top: 3rem;
+
+    .preview {
+      position: relative;
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+
+      &.device-frame {
+        background: var(--bulma-grey-lighter);
+
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 4px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(var(--bulma-primary-rgb), 0);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.3s ease;
+
+          .icon {
+            color: white;
+            font-size: 2rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+          }
+        }
+
+        &:hover .preview-overlay {
+          background: rgba(var(--bulma-primary-rgb), 0.7);
+
+          .icon {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      }
+
+      &-tablet {
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 2;
+      }
+
+      &-mobile {
+        grid-column: 4 / span 2;
+        grid-row: 1 / span 3;
+      }
+
+      &-desktop {
+        grid-column: 1 / span 3;
+        grid-row: 4 / span 3;
+      }
+    }
+
+    .gallery-item {
+      overflow: hidden;
+
+      &.gallery-item-1 {
+        grid-column: 3; // Tall image next to tablet
+        grid-row: 1 / span 2;
+        img {
+          object-position: 20% 50%;
+        }
+      }
+
+      &.gallery-item-2 {
+        grid-column: 1; // First 1x1 image
+        grid-row: 3;
+      }
+
+      &.gallery-item-3 {
+        grid-column: 2; // Second 1x1 image
+        grid-row: 3;
+      }
+
+      &.gallery-item-4 {
+        grid-column: 3; // Third 1x1 image
+        grid-row: 3;
+      }
+
+      &.gallery-item-5 {
+        grid-column: 4 / span 2; // Large image on bottom right
+        grid-row: 4 / span 3;
+        img {
+          object-position: right 50%;
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        opacity: 0.75;
+        transition:
+          filter 1s ease,
+          opacity 1s ease;
+
+        &:hover {
+          filter: grayscale(0%);
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  // Modal styles
+  #preview-modal {
+    .modal-content {
+      width: 90vw;
+      max-width: 1200px;
+      height: 90vh;
+      max-height: 800px;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: auto;
+
+      .preview-container {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  interface CustomWindow extends Window {
+    scrollTimeout?: number;
+  }
+  declare const window: CustomWindow;
+
+  let previewImages: HTMLImageElement[] = [];
+  let isScrollingPreview = false;
+
+  function setupPreviews() {
+    const previews = document.querySelectorAll(".preview");
+    const modal = document.querySelector("#preview-modal") as HTMLElement;
+    const modalImage = document.querySelector(
+      "#modal-preview-image"
+    ) as HTMLImageElement;
+    const modalClose = modal?.querySelector(".modal-close");
+    const modalBg = modal?.querySelector(".modal-background");
+
+    // Ensure modal is closed on page load/refresh
+    modal?.classList.remove("is-active");
+    if (modalImage) modalImage.src = "";
+
+    previews.forEach((preview) => {
+      preview.addEventListener("click", () => {
+        const img = preview.querySelector("img");
+        if (img && modal && modalImage) {
+          modalImage.src = img.src;
+          modal.classList.add("is-active");
+        }
+      });
+    });
+
+    // Close modal handlers
+    modalClose?.addEventListener("click", () => {
+      modal?.classList.remove("is-active");
+    });
+
+    modalBg?.addEventListener("click", () => {
+      modal?.classList.remove("is-active");
+    });
+
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal?.classList.contains("is-active")) {
+        modal.classList.remove("is-active");
+      }
+    });
+  }
+
+  function setupParallax() {
+    previewImages = Array.from(
+      document.querySelectorAll(".preview.device-frame img")
+    );
+
+    // Main scroll handler
+    window.addEventListener("scroll", () => {
+      if (!isScrollingPreview) {
+        const scrolled = window.scrollY;
+        previewImages.forEach((img) => {
+          const container = img.closest(".preview");
+          if (!container) return;
+
+          const containerRect = container.getBoundingClientRect();
+          const containerTop = containerRect.top + window.scrollY;
+
+          // Only parallax when container is in view and modal is not active
+          if (
+            scrolled + window.innerHeight > containerTop &&
+            scrolled < containerTop + containerRect.height &&
+            !document
+              .querySelector("#preview-modal")
+              ?.classList.contains("is-active")
+          ) {
+            // Different scroll rates based on device type
+            let rate = 0.3; // default rate
+            if (container.classList.contains("preview-mobile")) {
+              rate = 0.15; // Slower scroll for mobile
+            } else if (container.classList.contains("preview-tablet")) {
+              rate = 0.25; // Medium scroll for tablet
+            } else if (container.classList.contains("preview-desktop")) {
+              rate = 0.35; // Faster scroll for desktop
+            }
+
+            const maxScroll = img.offsetHeight - containerRect.height;
+            const newPosition = Math.min(maxScroll, scrolled * rate);
+
+            img.style.transform = `translateY(-${newPosition}px)`;
+          }
+        });
+      }
+    });
+
+    // Individual preview scroll handler
+    previewImages.forEach((img) => {
+      const container = img.closest(".preview");
+      if (!container) return;
+
+      container.addEventListener("wheel", ((e: WheelEvent) => {
+        // Only handle scroll if modal is not active
+        if (
+          container.matches(":hover") &&
+          !document
+            .querySelector("#preview-modal")
+            ?.classList.contains("is-active")
+        ) {
+          isScrollingPreview = true;
+
+          // Different scroll sensitivity based on device type
+          let scrollSensitivity = 0.5; // default sensitivity
+          if (container.classList.contains("preview-mobile")) {
+            scrollSensitivity = 0.2; // Less sensitive for mobile
+          } else if (container.classList.contains("preview-tablet")) {
+            scrollSensitivity = 0.4; // Medium sensitivity for tablet
+          } else if (container.classList.contains("preview-desktop")) {
+            scrollSensitivity = 0.6; // More sensitive for desktop
+          }
+
+          const currentTransform = img.style.transform;
+          const currentY = currentTransform
+            ? parseFloat(currentTransform.match(/-?\d+\.?\d*/)?.[0] || "0")
+            : 0;
+
+          const maxScroll = img.offsetHeight - container.clientHeight;
+          const newY = Math.max(
+            0,
+            Math.min(maxScroll, currentY + e.deltaY * scrollSensitivity)
+          );
+
+          // Only prevent default if we can actually scroll more
+          if (
+            (e.deltaY > 0 && newY < maxScroll) || // Scrolling down and not at bottom
+            (e.deltaY < 0 && newY > 0) // Scrolling up and not at top
+          ) {
+            e.preventDefault();
+          }
+
+          img.style.transform = `translateY(-${newY}px)`;
+
+          // Reset flag after scrolling stops
+          clearTimeout(window.scrollTimeout);
+          window.scrollTimeout = setTimeout(() => {
+            isScrollingPreview = false;
+          }, 150);
+        }
+      }) as EventListener);
+    });
+  }
+
+  // Setup on page load and after view transitions
+  document.addEventListener("astro:page-load", setupPreviews);
+  document.addEventListener("DOMContentLoaded", setupPreviews);
+  document.addEventListener("astro:page-load", setupParallax);
+  document.addEventListener("DOMContentLoaded", setupParallax);
+</script>

@@ -1,11 +1,188 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import IconBoxes from "../components/IconBoxes.astro";
+import ChecklistSplit from "../components/ChecklistSplit.astro";
+import TestimonialScroller from "../components/TestimonialScoller.astro";
+import SimpleBoxes from "../components/SimpleBoxes.astro";
+import FullCta from "../components/FullCta.astro";
+import FeatureIcons from "../components/FeatureIcons.astro";
+import { Image } from "astro:assets";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import heroImage from "../assets/images/home/hero.jpg";
+
+const items = [
+  {
+    title: "Sign up",
+    description: "You + Us is a match made in heaven.",
+    icon: "fa-circle-1",
+  },
+  {
+    title: "Get A New Site",
+    description: "Welcome to your hassle-free site.",
+    icon: "fa-circle-2",
+  },
+  {
+    title: "Request Any Updates",
+    description: "Need an update, just ask.",
+    icon: "fa-circle-3",
+  },
+  {
+    title: "Stay Fresh",
+    description: "Get a completely new look every 3 years.",
+    icon: "fa-circle-4",
+  },
+];
+
+const checklistItems = [
+  {
+    title: "No upfront cost",
+  },
+  {
+    title: "Unimited Website Updates",
+  },
+  {
+    title: "Includes Hosting & CMS",
+  },
+  {
+    title: "Unlimited Support",
+  },
+  {
+    title: "Recurring Website Refreshes",
+  },
+  {
+    title: "One flat monthly fee",
+  },
+];
+
+const featureItems = [
+  {
+    title: "Professional Service Themes",
+    description:
+      "Premium themes designed specifically for professional service businesses.",
+    icon: "fa-paint-brush",
+  },
+  {
+    title: "Complete Website Build",
+    description: "Full-service website development from start to finish.",
+    icon: "fa-layer-group",
+  },
+  {
+    title: "AI Copy Assistant",
+    description: "Smart content creation tools to help with your website copy.",
+    icon: "fa-robot",
+  },
+  {
+    title: "Unlimited Pages",
+    description: "No restrictions on the number of pages for your website.",
+    icon: "fa-copy",
+  },
+  {
+    title: "Updates On Demand",
+    description:
+      "Request changes whenever you need them with quick turnaround.",
+    icon: "fa-arrows-rotate",
+  },
+  {
+    title: "On Page SEO",
+    description: "Built-in search engine optimization for better visibility.",
+    icon: "fa-magnifying-glass-chart",
+  },
+  {
+    title: "Website Hosting",
+    description: "Reliable hosting included with your subscription.",
+    icon: "fa-server",
+  },
+  {
+    title: "SSL Certificate",
+    description: "Secure your site with included SSL encryption.",
+    icon: "fa-shield-check",
+  },
+  {
+    title: "Mobile First Design",
+    description: "Responsive websites that look great on all devices.",
+    icon: "fa-mobile-screen",
+  },
+  {
+    title: "100% Managed Maintenance",
+    description: "We handle all updates, backups, and security patches.",
+    icon: "fa-gears",
+  },
+  {
+    title: "Rockstar Support",
+    description: "Dedicated support team ready to assist whenever needed.",
+    icon: "fa-headset",
+  },
+  {
+    title: "Periodic Refreshes",
+    description: "Regular website updates to keep your online presence fresh.",
+    icon: "fa-arrow-rotate-right",
+  },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <div data-aos="fade-down" data-aos-duration="1000">
+    <Hero
+      title="Professional Service Websites [Without The Nonsense]"
+      description="Say goodbye to large capital expenses, managing complicated updates, and outdated websites."
+      image={heroImage}
+    />
+  </div>
+  <section class="section">
+    <div class="has-background-light">
+      <div data-aos="fade-right" data-aos-duration="800" data-aos-offset="200">
+        <IconBoxes
+          title="It's pretty easy from here"
+          subtitle="The last website you'll ever need"
+          button={true}
+          buttonText="Learn More About How It Works"
+          buttonLink="/"
+          items={items}
+        />
+      </div>
+      <div
+        data-aos="fade-left"
+        data-aos-duration="800"
+        data-aos-delay="100"
+        data-aos-offset="200"
+      >
+        <ChecklistSplit
+          subtitle="the last website you'll ever need"
+          title="Why Firm Page?"
+          items={checklistItems}
+          buttonText="Get Started Today"
+          buttonUrl="/contact"
+          showButton={true}
+          mediaOnRight={false}
+          imageSrc={heroImage}
+          imageAlt="Why choose Firm Page"
+        />
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div data-aos="zoom-in" data-aos-duration="800" data-aos-offset="200">
+        <FeatureIcons
+          title="Everything You Need"
+          subtitle="COMPREHENSIVE SOLUTIONS"
+          description="Our all-inclusive website service comes with everything professional service businesses need to succeed online."
+          showDescriptionOnHover={true}
+          items={featureItems}
+        />
+      </div>
+    </div>
+  </section>
+  <div data-aos="fade-up" data-aos-duration="800" data-aos-offset="200">
+    <TestimonialScroller />
+  </div>
+  <div data-aos="flip-up" data-aos-duration="1000" data-aos-offset="200">
+    <FullCta
+      title="Don't let your website hold you back"
+      image={heroImage}
+      link="/contact"
+      buttonText="Get Started Today"
+    />
+  </div>
 </Layout>

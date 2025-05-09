@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Title from "../components/Title.astro";
+import FullCta from "../components/FullCta.astro";
+import heroImage from "../assets/images/home/hero.jpg";
+---
+
+<Layout title="Page Not Found | 404">
+  <section class="section">
+    <div class="container">
+      <div class="has-text-centered">
+        <Title text="[404] Page Not Found" size={1} class="is-1 mb-4" />
+        <p class="subtitle is-4 mb-6">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="buttons is-centered">
+          <a href="/" class="button is-primary">
+            <span class="icon">
+              <i class="fa-sharp fa-regular fa-house"></i>
+            </span>
+            <span>Back to Home</span>
+          </a>
+          <a href="/contact" class="button is-primary is-outlined">
+            <span class="icon">
+              <i class="fa-sharp fa-regular fa-envelope"></i>
+            </span>
+            <span>Contact Us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FullCta
+    title="Ready To Solve Your Firm's Website Woes?"
+    buttonText="Get Started Today"
+    link="/contact"
+    image={heroImage}
+  />
+</Layout>
+
+<style lang="scss">
+  .section {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+</style>

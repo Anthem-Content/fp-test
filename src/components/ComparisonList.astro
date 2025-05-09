@@ -1,0 +1,105 @@
+---
+import Title from "./Title.astro";
+
+interface ComparisonItem {
+  traditional: string;
+  firmPage: string;
+}
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  items: ComparisonItem[];
+}
+
+const {
+  title = "Why Choose Our Managed Service Over Traditional Models?",
+  subtitle = "WHY IT IS DIFFERENT",
+  items = [
+    {
+      traditional: "Expensive upfront costs",
+      firmPage: "Flat monthly fee",
+    },
+    {
+      traditional: "Maintenance headaches",
+      firmPage: "No maintenance worries",
+    },
+    {
+      traditional: "Outdated designs",
+      firmPage: "Always up-to-date websites",
+    },
+  ],
+} = Astro.props;
+---
+
+<section class="section">
+  <div class="container is-fluid">
+    <div class="has-text-centered mb-6">
+      <Title size={2} class="is-2" text={title} preHeading={subtitle} />
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <div class="is-flex is-align-items-center" style="gap: 2rem;">
+          <div class="is-flex-grow-1">
+            <h3 class="title is-3 has-text-danger mb-5 has-text-right">
+              Traditional Models
+            </h3>
+            <ul class="pl-0 m-0">
+              {
+                items.map((item: ComparisonItem) => (
+                  <li
+                    class="is-flex is-align-items-center mb-4 is-flex-direction-row-reverse has-text-right"
+                    style="gap: 1rem;"
+                  >
+                    <span class="icon is-size-4">
+                      <i class="fa-sharp fa-light fa-thumbs-down has-text-danger" />
+                    </span>
+                    <span class="is-size-5">{item.traditional}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="is-flex is-align-items-center is-justify-content-center">
+            <div
+              class="has-background-dark has-text-white is-flex is-align-items-center is-justify-content-center has-text-weight-semibold is-family-secondary is-size-4"
+              style="width: 80px; height: 80px; border-radius: 50%;"
+            >
+              <span>VS</span>
+            </div>
+          </div>
+
+          <div class="is-flex-grow-1">
+            <h3 class="title is-3 has-text-info mb-5 has-text-left">
+              The Firm Page Plan
+            </h3>
+            <ul class="pl-0 m-0">
+              {
+                items.map((item: ComparisonItem) => (
+                  <li
+                    class="is-flex is-align-items-center mb-4 has-text-left"
+                    style="gap: 1rem;"
+                  >
+                    <span class="icon is-size-4">
+                      <i class="fa-sharp fa-light fa-thumbs-up has-text-info" />
+                    </span>
+                    <span class="is-size-5">{item.firmPage}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  // Only keeping minimal required styles that can't be handled by Bulma classes
+  ul {
+    list-style: none;
+  }
+</style>

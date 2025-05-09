@@ -1,0 +1,89 @@
+---
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  buttonText: string;
+  link: string;
+  image: string | ImageMetadata;
+}
+
+import UniversalImage from "./UniversalImage.astro";
+import Title from "./Title.astro";
+
+const { title, buttonText, link, image } = Astro.props;
+
+// Handle both string and ImageMetadata types
+const imageUrl = typeof image === "string" ? image : image.src;
+---
+
+<section class="section">
+  <div class="hero is-medium is-block is-cta">
+    <a href={link} class="hero-link"></a>
+    <div class="hero-background" style={`background-image: url(${imageUrl})`}>
+    </div>
+    <div class="container">
+      <div class="hero-body has-text-centered">
+        <div class="columns">
+          <div class="column is-8 is-offset-2">
+            <Title size={2} text={title} class="has-text-white is-2" />
+            <a href={link} class="button is-warning mt-5">{buttonText}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss" scoped>
+  .hero.is-cta {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease-in-out;
+    .hero-background {
+      background-size: cover;
+      background-position: center 23%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bulma-primary);
+        opacity: 0.8;
+        transition: background 0.5s ease-in-out;
+      }
+    }
+    &:hover {
+      transform: scale(0.95);
+      .button {
+        background: var(--bulma-primary) !important;
+        &::before {
+          background: var(--bulma-primary) !important;
+        }
+      }
+      .hero-background {
+        &::after {
+          background: var(--bulma-warning);
+        }
+      }
+      .hero-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+      }
+    }
+  }
+</style>

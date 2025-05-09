@@ -1,0 +1,156 @@
+---
+import Title from "../components/Title.astro";
+import UniversalImage from "./UniversalImage.astro";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  subtitle: string;
+  items: { title: string; description?: string }[];
+  buttonText: string;
+  buttonUrl: string;
+  showButton: boolean;
+  mediaOnRight: boolean;
+  imageSrc: ImageMetadata | string;
+  imageAlt: string;
+}
+
+const {
+  title = "Our Values",
+  subtitle = "Our Values",
+  items = [],
+  mediaOnRight = true,
+  imageSrc,
+  imageAlt = "Content Image",
+} = Astro.props;
+
+function processTitle(text: string): string {
+  return text.replace(
+    /\[([^\]]+)\]/g,
+    '<span class="has-text-primary">$1</span>'
+  );
+}
+---
+
+<section class="section checklist-split py-5-mobile py-6-tablet">
+  <div class="container">
+    <div
+      class={`columns is-vcentered ${mediaOnRight ? "is-flex-direction-row-reverse" : ""}`}
+    >
+      <!-- Image -->
+      <div
+        class="column is-12-mobile is-6-tablet mb-4-mobile"
+        data-aos="fade-up"
+        data-aos-duration="800"
+      >
+        <div class="image is-flex is-justify-content-center-mobile">
+          <UniversalImage src={imageSrc} alt={imageAlt} class="object-cover" />
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div
+        class="column is-12-mobile is-6-tablet"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        data-aos-duration="600"
+      >
+        <div class="px-2-mobile">
+          <Title
+            size={2}
+            class="is-2 mt-3-mobile"
+            preHeading={subtitle}
+            text={title}
+          />
+          <div class="checklist mt-4">
+            {
+              items.map(
+                (item: { title: string; description?: string }, index) => (
+                  <div
+                    class="checklist-item"
+                    data-aos="fade-up"
+                    data-aos-delay={100 * index}
+                    data-aos-duration="600"
+                  >
+                    <i class="fa-sharp fa-solid fa-circle-check has-text-primary checklist-icon" />
+                    <h4 class="title is-6 mb-0 checklist-title">
+                      {item.title}
+                    </h4>
+                    {item.description && (
+                      <p class="checklist-description">{item.description}</p>
+                    )}
+                  </div>
+                )
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .checklist-split {
+    .columns.is-flex-direction-row-reverse {
+      @media screen and (min-width: 769px) {
+        flex-direction: row-reverse;
+      }
+    }
+
+    .checklist {
+      margin-top: 1.5rem;
+    }
+
+    .checklist-item {
+      margin-bottom: 1.5rem;
+      text-align: left;
+
+      @media screen and (max-width: 768px) {
+        text-align: center;
+      }
+
+      .checklist-icon {
+        display: inline-block;
+        font-size: 1.25rem;
+        margin-right: 0.5rem;
+        vertical-align: top;
+        margin-top: 0.2rem;
+      }
+
+      .checklist-title {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .checklist-description {
+        display: block;
+        margin-top: 0.5rem;
+        margin-left: 1.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .image {
+      overflow: hidden;
+      border-radius: 0;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        @media screen and (max-width: 768px) {
+          max-width: 90%;
+          height: auto;
+        }
+      }
+    }
+  }
+</style>

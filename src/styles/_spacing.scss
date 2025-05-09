@@ -1,0 +1,192 @@
+// Import Bulma utilities for mixins
+@use "bulma/sass/utilities/mixins" as mixins;
+
+// Spacing scale (the same as Bulma's default)
+$spacing-values: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.5rem,
+  6: 2rem,
+  7: 3rem,
+  8: 4rem
+);
+
+// Create responsive spacing utility classes
+// Create all the padding variations
+@each $size, $value in $spacing-values {
+  // Mobile
+  @include mixins.mobile {
+    .p-#{$size}-mobile { padding: $value !important; }
+    .pt-#{$size}-mobile { padding-top: $value !important; }
+    .pr-#{$size}-mobile { padding-right: $value !important; }
+    .pb-#{$size}-mobile { padding-bottom: $value !important; }
+    .pl-#{$size}-mobile { padding-left: $value !important; }
+    .px-#{$size}-mobile { 
+      padding-left: $value !important;
+      padding-right: $value !important;
+    }
+    .py-#{$size}-mobile { 
+      padding-top: $value !important;
+      padding-bottom: $value !important;
+    }
+  }
+  
+  // Tablet
+  @include mixins.tablet {
+    .p-#{$size}-tablet { padding: $value !important; }
+    .pt-#{$size}-tablet { padding-top: $value !important; }
+    .pr-#{$size}-tablet { padding-right: $value !important; }
+    .pb-#{$size}-tablet { padding-bottom: $value !important; }
+    .pl-#{$size}-tablet { padding-left: $value !important; }
+    .px-#{$size}-tablet { 
+      padding-left: $value !important;
+      padding-right: $value !important;
+    }
+    .py-#{$size}-tablet { 
+      padding-top: $value !important;
+      padding-bottom: $value !important;
+    }
+  }
+  
+  // Desktop
+  @include mixins.desktop {
+    .p-#{$size}-desktop { padding: $value !important; }
+    .pt-#{$size}-desktop { padding-top: $value !important; }
+    .pr-#{$size}-desktop { padding-right: $value !important; }
+    .pb-#{$size}-desktop { padding-bottom: $value !important; }
+    .pl-#{$size}-desktop { padding-left: $value !important; }
+    .px-#{$size}-desktop { 
+      padding-left: $value !important;
+      padding-right: $value !important;
+    }
+    .py-#{$size}-desktop { 
+      padding-top: $value !important;
+      padding-bottom: $value !important;
+    }
+  }
+  
+  // Widescreen
+  @include mixins.widescreen {
+    .p-#{$size}-widescreen { padding: $value !important; }
+    .pt-#{$size}-widescreen { padding-top: $value !important; }
+    .pr-#{$size}-widescreen { padding-right: $value !important; }
+    .pb-#{$size}-widescreen { padding-bottom: $value !important; }
+    .pl-#{$size}-widescreen { padding-left: $value !important; }
+    .px-#{$size}-widescreen { 
+      padding-left: $value !important;
+      padding-right: $value !important;
+    }
+    .py-#{$size}-widescreen { 
+      padding-top: $value !important;
+      padding-bottom: $value !important;
+    }
+  }
+  
+  // Fullhd
+  @include mixins.fullhd {
+    .p-#{$size}-fullhd { padding: $value !important; }
+    .pt-#{$size}-fullhd { padding-top: $value !important; }
+    .pr-#{$size}-fullhd { padding-right: $value !important; }
+    .pb-#{$size}-fullhd { padding-bottom: $value !important; }
+    .pl-#{$size}-fullhd { padding-left: $value !important; }
+    .px-#{$size}-fullhd { 
+      padding-left: $value !important;
+      padding-right: $value !important;
+    }
+    .py-#{$size}-fullhd { 
+      padding-top: $value !important;
+      padding-bottom: $value !important;
+    }
+  }
+}
+
+// Create all the margin variations
+@each $size, $value in $spacing-values {
+  // Mobile
+  @include mixins.mobile {
+    .m-#{$size}-mobile { margin: $value !important; }
+    .mt-#{$size}-mobile { margin-top: $value !important; }
+    .mr-#{$size}-mobile { margin-right: $value !important; }
+    .mb-#{$size}-mobile { margin-bottom: $value !important; }
+    .ml-#{$size}-mobile { margin-left: $value !important; }
+    .mx-#{$size}-mobile { 
+      margin-left: $value !important;
+      margin-right: $value !important;
+    }
+    .my-#{$size}-mobile { 
+      margin-top: $value !important;
+      margin-bottom: $value !important;
+    }
+  }
+  
+  // Tablet
+  @include mixins.tablet {
+    .m-#{$size}-tablet { margin: $value !important; }
+    .mt-#{$size}-tablet { margin-top: $value !important; }
+    .mr-#{$size}-tablet { margin-right: $value !important; }
+    .mb-#{$size}-tablet { margin-bottom: $value !important; }
+    .ml-#{$size}-tablet { margin-left: $value !important; }
+    .mx-#{$size}-tablet { 
+      margin-left: $value !important;
+      margin-right: $value !important;
+    }
+    .my-#{$size}-tablet { 
+      margin-top: $value !important;
+      margin-bottom: $value !important;
+    }
+  }
+  
+  // Desktop
+  @include mixins.desktop {
+    .m-#{$size}-desktop { margin: $value !important; }
+    .mt-#{$size}-desktop { margin-top: $value !important; }
+    .mr-#{$size}-desktop { margin-right: $value !important; }
+    .mb-#{$size}-desktop { margin-bottom: $value !important; }
+    .ml-#{$size}-desktop { margin-left: $value !important; }
+    .mx-#{$size}-desktop { 
+      margin-left: $value !important;
+      margin-right: $value !important;
+    }
+    .my-#{$size}-desktop { 
+      margin-top: $value !important;
+      margin-bottom: $value !important;
+    }
+  }
+  
+  // Widescreen
+  @include mixins.widescreen {
+    .m-#{$size}-widescreen { margin: $value !important; }
+    .mt-#{$size}-widescreen { margin-top: $value !important; }
+    .mr-#{$size}-widescreen { margin-right: $value !important; }
+    .mb-#{$size}-widescreen { margin-bottom: $value !important; }
+    .ml-#{$size}-widescreen { margin-left: $value !important; }
+    .mx-#{$size}-widescreen { 
+      margin-left: $value !important;
+      margin-right: $value !important;
+    }
+    .my-#{$size}-widescreen { 
+      margin-top: $value !important;
+      margin-bottom: $value !important;
+    }
+  }
+  
+  // Fullhd
+  @include mixins.fullhd {
+    .m-#{$size}-fullhd { margin: $value !important; }
+    .mt-#{$size}-fullhd { margin-top: $value !important; }
+    .mr-#{$size}-fullhd { margin-right: $value !important; }
+    .mb-#{$size}-fullhd { margin-bottom: $value !important; }
+    .ml-#{$size}-fullhd { margin-left: $value !important; }
+    .mx-#{$size}-fullhd { 
+      margin-left: $value !important;
+      margin-right: $value !important;
+    }
+    .my-#{$size}-fullhd { 
+      margin-top: $value !important;
+      margin-bottom: $value !important;
+    }
+  }
+} 
