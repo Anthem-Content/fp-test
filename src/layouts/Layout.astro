@@ -19,7 +19,6 @@ const { title = "Firm Page" } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="/styles/styles.css" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script
       src="https://kit.fontawesome.com/07074c1575.js"
       crossorigin="anonymous"></script>
@@ -29,7 +28,6 @@ const { title = "Firm Page" } = Astro.props;
     <NavBar />
     <slot />
     <Footer />
-    <script is:inline src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script is:inline>
       function updateBodyPadding() {
         const navbar = document.querySelector(".navbar");

@@ -2,8 +2,8 @@
 import Title from "./Title.astro";
 
 interface ComparisonItem {
-  traditional: string;
   firmPage: string;
+  traditional: string;
 }
 
 interface Props {
@@ -17,16 +17,16 @@ const {
   subtitle = "WHY IT IS DIFFERENT",
   items = [
     {
-      traditional: "Expensive upfront costs",
       firmPage: "Flat monthly fee",
+      traditional: "Expensive upfront costs",
     },
     {
-      traditional: "Maintenance headaches",
       firmPage: "No maintenance worries",
+      traditional: "Maintenance headaches",
     },
     {
-      traditional: "Outdated designs",
       firmPage: "Always up-to-date websites",
+      traditional: "Outdated designs",
     },
   ],
 } = Astro.props;
@@ -40,16 +40,19 @@ const {
 
     <div class="columns is-centered">
       <div class="column is-10">
-        <div class="is-flex is-align-items-center" style="gap: 2rem;">
+        <div
+          class="is-flex is-align-items-center is-flex-direction-row-reverse"
+          style="gap: 2rem;"
+        >
           <div class="is-flex-grow-1">
-            <h3 class="title is-3 has-text-danger mb-5 has-text-right">
-              Traditional Models
+            <h3 class="title is-3 has-text-danger mb-5 has-text-left">
+              Typical Web Design
             </h3>
             <ul class="pl-0 m-0">
               {
                 items.map((item: ComparisonItem) => (
                   <li
-                    class="is-flex is-align-items-center mb-4 is-flex-direction-row-reverse has-text-right"
+                    class="is-flex is-align-items-center mb-4 has-text-left"
                     style="gap: 1rem;"
                   >
                     <span class="icon is-size-4">
@@ -72,14 +75,14 @@ const {
           </div>
 
           <div class="is-flex-grow-1">
-            <h3 class="title is-3 has-text-info mb-5 has-text-left">
+            <h3 class="title is-3 has-text-info mb-5 has-text-right">
               The Firm Page Plan
             </h3>
             <ul class="pl-0 m-0">
               {
                 items.map((item: ComparisonItem) => (
                   <li
-                    class="is-flex is-align-items-center mb-4 has-text-left"
+                    class="is-flex is-align-items-center mb-4 has-text-right is-flex-direction-row-reverse"
                     style="gap: 1rem;"
                   >
                     <span class="icon is-size-4">

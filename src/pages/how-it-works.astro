@@ -6,7 +6,11 @@ import MediaSplit from "../components/MediaSplit.astro";
 import FullCta from "../components/FullCta.astro";
 import ComparisonList from "../components/ComparisonList.astro";
 
-import heroImage from "../assets/images/home/hero.jpg";
+import heroImage from "/src/assets/images/how/how-firm-page-works-hero.jpg";
+import signupImage from "/src/assets/images/how/how-firm-page-works-signup.jpg";
+import buildingImage from "/src/assets/images/how/how-firm-page-works-building.jpg";
+import fullServiceImage from "/src/assets/images/how/how-firm-page-works-full-service.jpg";
+import siteRefreshImage from "/src/assets/images/how/how-firm-page-works-site-refresh.jpg";
 ---
 
 <Layout>
@@ -14,11 +18,6 @@ import heroImage from "../assets/images/home/hero.jpg";
     title="How Your Firm's Managed Website [Works]"
     description="Welcome to the seamless solution designed to save money, and time while ensuring your website is always up-to-date."
     image={heroImage}
-    button={true}
-    buttonVideo={true}
-    buttonText="Experience the Difference"
-    buttonIcon="fa-play"
-    youtubeId="dQw4w9WgXcQ"
   />
   <section class="section">
     <div class="has-background-light pt-6">
@@ -36,7 +35,7 @@ import heroImage from "../assets/images/home/hero.jpg";
         title="Sign Up"
         subtitle="Onboarding Consultation"
         description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
-        imageSrc="https://picsum.photos/800/600?random=1"
+        imageSrc={signupImage}
         imageAlt="Sign Up"
         mediaOnRight={false}
       />
@@ -44,7 +43,7 @@ import heroImage from "../assets/images/home/hero.jpg";
         title="Building Begins"
         subtitle="We Build Your Website"
         description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
-        imageSrc="https://picsum.photos/800/600?random=2"
+        imageSrc={buildingImage}
         imageAlt="Sign Up"
         mediaOnRight={true}
       />
@@ -52,7 +51,7 @@ import heroImage from "../assets/images/home/hero.jpg";
         title="Full Service"
         subtitle="We Manage Everything"
         description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
-        imageSrc="https://picsum.photos/800/600?random=3"
+        imageSrc={fullServiceImage}
         imageAlt="Sign Up"
         mediaOnRight={false}
       />
@@ -60,14 +59,14 @@ import heroImage from "../assets/images/home/hero.jpg";
         title="Site Refresh"
         subtitle="Updated Design"
         description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
-        imageSrc="https://picsum.photos/800/600?random=4"
+        imageSrc={siteRefreshImage}
         imageAlt="Sign Up"
         mediaOnRight={true}
       />
     </div>
   </section>
   <ComparisonList
-    title="Why Choose Our Managed Service Over Traditional Models?"
+    title="Firm Page Vs Traditional Web Designs"
     subtitle="WHY IT IS DIFFERENT"
     items={[
       {
@@ -89,5 +88,6 @@ import heroImage from "../assets/images/home/hero.jpg";
     title="Ready To Solve Your Firm's Website Woes?"
     image={heroImage}
     link="/contact"
+    buttonText="Get Started Today"
   />
 </Layout>

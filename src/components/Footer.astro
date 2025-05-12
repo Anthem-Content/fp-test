@@ -27,7 +27,7 @@ const currentYear = new Date().getFullYear();
 <footer class="footer has-background-dark">
   <div class="container">
     <div class="columns is-vcentered">
-      <div class="column">
+      <div class="column is-flex is-justify-content-center-mobile">
         <a href="/" class="is-block">
           <svg
             width="239"
@@ -80,7 +80,7 @@ const currentYear = new Date().getFullYear();
         </a>
       </div>
       <div class="column">
-        <nav class="is-flex is-justify-content-flex-end">
+        <nav class="is-flex is-justify-content-flex-end nav-desktop">
           {
             navigation.map((item: NavItem) => (
               <a href={item.href} class="has-text-white px-5">
@@ -89,7 +89,9 @@ const currentYear = new Date().getFullYear();
             ))
           }
         </nav>
-        <p class="has-text-grey is-size-7 has-text-right pt-4 pr-5">
+        <p
+          class="has-text-grey is-size-7 has-text-right pt-4 pr-5 copyright-text"
+        >
           Privacy | Terms | © Firm Page {currentYear}
         </p>
       </div>
@@ -110,6 +112,21 @@ const currentYear = new Date().getFullYear();
       &:hover {
         color: var(--bulma-primary) !important;
       }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .nav-desktop {
+      display: none !important;
+    }
+
+    .is-justify-content-center-mobile {
+      justify-content: center !important;
+    }
+
+    .copyright-text {
+      text-align: center !important;
+      padding-right: 0 !important;
     }
   }
 </style>

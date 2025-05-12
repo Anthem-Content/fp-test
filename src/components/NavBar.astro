@@ -8,7 +8,7 @@ import logo from "../assets/images/logo.svg";
   role="navigation"
   aria-label="main navigation"
 >
-  <div class="nav-container">
+  <div class="container is-fluid">
     <div class="navbar-brand">
       <a class="navbar-item pl-0" href="/">
         <Image src={logo} alt="firmpage logo" />
@@ -20,7 +20,7 @@ import logo from "../assets/images/logo.svg";
         class="navbar-burger is-hidden-desktop"
         aria-label="menu"
         aria-expanded="false"
-        data-target="navbarBasicExample"
+        data-target="mainNav"
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -82,12 +82,15 @@ import logo from "../assets/images/logo.svg";
     --container-padding: 1.5rem;
     --bulma-navbar-item-img-max-height: 100%;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    background: white;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     width: 100%;
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 
     &.has-shadow {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.7);
     }
 
     .nav-container {
@@ -107,6 +110,25 @@ import logo from "../assets/images/logo.svg";
       pointer-events: auto;
       flex: 1;
       position: relative;
+
+      // Mobile menu styling
+      @media screen and (max-width: 1023px) {
+        display: none;
+
+        &.is-active {
+          display: block;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 100%;
+          background: rgba(255, 255, 255, 1);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+          padding: 1rem;
+          z-index: 30;
+        }
+      }
     }
 
     .navbar-brand {
@@ -114,6 +136,11 @@ import logo from "../assets/images/logo.svg";
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: auto;
+
+      @media screen and (max-width: 1023px) {
+        width: 100%;
+      }
 
       .navbar-item {
         padding-left: 0;
@@ -155,7 +182,7 @@ import logo from "../assets/images/logo.svg";
       width: var(--collapsed-width);
       padding: 0.5rem !important;
 
-      .nav-container {
+      .container {
         padding: 0 1rem;
       }
 
@@ -180,6 +207,12 @@ import logo from "../assets/images/logo.svg";
         flex: 1;
         width: 100%;
       }
+    }
+
+    // Added mobile burger styling
+    .navbar-burger {
+      margin-left: auto;
+      color: currentColor;
     }
   }
 
@@ -240,6 +273,7 @@ import logo from "../assets/images/logo.svg";
 <script>
   const navbar = document.querySelector(".navbar");
   const desktopBurger = document.querySelector("[data-desktop-burger]");
+  const mobileBurger = document.querySelector(".navbar-burger");
   const SCROLL_THRESHOLD = 100;
   const SHADOW_THRESHOLD = 20;
 
@@ -291,6 +325,18 @@ import logo from "../assets/images/logo.svg";
         }
       }
     }, 10);
+  });
+
+  // Handle mobile burger click
+  mobileBurger?.addEventListener("click", () => {
+    const targetId = mobileBurger.getAttribute("data-target");
+    const targetMenu = document.getElementById(targetId || "");
+
+    // Toggle is-active class on burger
+    mobileBurger.classList.toggle("is-active");
+
+    // Toggle is-active class on menu
+    targetMenu?.classList.toggle("is-active");
   });
 
   // Handle desktop burger click

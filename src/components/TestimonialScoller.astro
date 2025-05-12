@@ -36,8 +36,8 @@ const testimonials: Testimonial[] = [
 ];
 ---
 
-<section class="section has-background-dark pr-0">
-  <div class="container is-fluid px-0">
+<section class="section has-background-dark">
+  <div class="container is-max-widescreen">
     <div class="columns is-vcentered">
       <div class="column is-4 p-6">
         <Title
@@ -46,10 +46,12 @@ const testimonials: Testimonial[] = [
           preHeading="Our Kind of Clients"
           text="Don't just take our word for it"
         />
-        <a href="/projects" class="button is-warning is-outlined">See More</a>
+        <a href="/projects" class="button is-warning is-outlined"
+          >See Our Work</a
+        >
       </div>
       <div class="column is-8">
-        <div class="glide">
+        <div class="glide testimonial-slider">
           <div class="glide__track" data-glide-el="track">
             <ul class="glide__slides">
               {
@@ -87,6 +89,11 @@ const testimonials: Testimonial[] = [
 </section>
 
 <style>
+  .testimonial-slider {
+    width: 100%;
+    overflow: hidden;
+  }
+
   .glide__slide {
     height: auto;
   }
@@ -98,6 +105,7 @@ const testimonials: Testimonial[] = [
   .testimonial-card {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   /* Every odd slide will have text above image */
@@ -114,6 +122,7 @@ const testimonials: Testimonial[] = [
     width: 100%;
     height: auto;
     display: block;
+    max-width: 100%;
   }
 
   .glide__bullets {
@@ -138,6 +147,13 @@ const testimonials: Testimonial[] = [
     width: 36px;
     border-radius: 6px;
   }
+
+  @media screen and (max-width: 768px) {
+    .testimonial-slider {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
 </style>
 
 <script>
@@ -156,6 +172,9 @@ const testimonials: Testimonial[] = [
         },
         1024: {
           perView: 2,
+        },
+        1408: {
+          perView: 3,
         },
       },
     });

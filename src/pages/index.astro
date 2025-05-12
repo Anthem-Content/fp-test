@@ -10,6 +10,8 @@ import FeatureIcons from "../components/FeatureIcons.astro";
 import { Image } from "astro:assets";
 
 import heroImage from "../assets/images/home/hero.jpg";
+import whyImage from "../assets/images/home/why-firm-page.jpg";
+import ctaImage from "../assets/images/home/firm-page-cta.jpg";
 
 const items = [
   {
@@ -122,7 +124,7 @@ const featureItems = [
 ---
 
 <Layout>
-  <div data-aos="fade-down" data-aos-duration="1000">
+  <div>
     <Hero
       title="Professional Service Websites [Without The Nonsense]"
       description="Say goodbye to large capital expenses, managing complicated updates, and outdated websites."
@@ -131,7 +133,7 @@ const featureItems = [
   </div>
   <section class="section">
     <div class="has-background-light">
-      <div data-aos="fade-right" data-aos-duration="800" data-aos-offset="200">
+      <div>
         <IconBoxes
           title="It's pretty easy from here"
           subtitle="The last website you'll ever need"
@@ -141,12 +143,7 @@ const featureItems = [
           items={items}
         />
       </div>
-      <div
-        data-aos="fade-left"
-        data-aos-duration="800"
-        data-aos-delay="100"
-        data-aos-offset="200"
-      >
+      <div>
         <ChecklistSplit
           subtitle="the last website you'll ever need"
           title="Why Firm Page?"
@@ -155,7 +152,7 @@ const featureItems = [
           buttonUrl="/contact"
           showButton={true}
           mediaOnRight={false}
-          imageSrc={heroImage}
+          imageSrc={whyImage}
           imageAlt="Why choose Firm Page"
         />
       </div>
@@ -163,7 +160,7 @@ const featureItems = [
   </section>
   <section class="section">
     <div class="container">
-      <div data-aos="zoom-in" data-aos-duration="800" data-aos-offset="200">
+      <div>
         <FeatureIcons
           title="Everything You Need"
           subtitle="COMPREHENSIVE SOLUTIONS"
@@ -174,13 +171,12 @@ const featureItems = [
       </div>
     </div>
   </section>
-  <div data-aos="fade-up" data-aos-duration="800" data-aos-offset="200">
-    <TestimonialScroller />
-  </div>
-  <div data-aos="flip-up" data-aos-duration="1000" data-aos-offset="200">
+  <TestimonialScroller />
+
+  <div>
     <FullCta
       title="Don't let your website hold you back"
-      image={heroImage}
+      image={ctaImage}
       link="/contact"
       buttonText="Get Started Today"
     />
