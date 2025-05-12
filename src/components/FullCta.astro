@@ -3,15 +3,26 @@ import type { ImageMetadata } from "astro";
 
 interface Props {
   title: string;
-  buttonText: string;
-  link: string;
+  buttonText?: string;
+  link?: string;
   image: string | ImageMetadata;
+  showSecondButton?: boolean;
+  secondButtonText?: string;
+  secondButtonLink?: string;
 }
 
 import UniversalImage from "./UniversalImage.astro";
 import Title from "./Title.astro";
 
-const { title, buttonText, link, image } = Astro.props;
+const {
+  title,
+  buttonText = "Get a Demo",
+  link = "/demo",
+  image,
+  showSecondButton = true,
+  secondButtonText = "Sign Up",
+  secondButtonLink = "#",
+} = Astro.props;
 
 // Handle both string and ImageMetadata types
 const imageUrl = typeof image === "string" ? image : image.src;
@@ -19,7 +30,6 @@ const imageUrl = typeof image === "string" ? image : image.src;
 
 <section class="section">
   <div class="hero is-medium is-block is-cta">
-    <a href={link} class="hero-link"></a>
     <div class="hero-background" style={`background-image: url(${imageUrl})`}>
     </div>
     <div class="container">
@@ -27,7 +37,16 @@ const imageUrl = typeof image === "string" ? image : image.src;
         <div class="columns">
           <div class="column is-10 is-offset-1">
             <Title size={2} text={title} class="has-text-white is-2" />
-            <a href={link} class="button is-warning mt-5">{buttonText}</a>
+            <div class="buttons is-centered mt-5">
+              <a href={link} class="button is-warning">{buttonText}</a>
+              {
+                showSecondButton && (
+                  <a href={secondButtonLink} class="button is-white">
+                    {secondButtonText}
+                  </a>
+                )
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -58,32 +77,29 @@ const imageUrl = typeof image === "string" ? image : image.src;
         height: 100%;
         background: var(--bulma-primary);
         opacity: 0.8;
-        transition: background 0.5s ease-in-out;
       }
     }
     &:hover {
       transform: scale(0.95);
-      .button {
-        background: var(--bulma-primary) !important;
-        &::before {
-          background: var(--bulma-primary) !important;
-        }
-      }
-      .hero-background {
-        &::after {
-          background: var(--bulma-warning);
-        }
-      }
-      .hero-link {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        inset: 0;
-        z-index: 3;
-      }
+    }
+  }
+
+  .button.is-warning {
+    &:hover {
+      background: white !important;
+      color: var(--bulma-primary) !important;
+      border-color: white !important;
+    }
+  }
+
+  .button.is-white {
+    background-color: white;
+    color: var(--bulma-primary);
+
+    &:hover {
+      background-color: var(--bulma-warning) !important;
+      color: white;
+      border-color: var(--bulma-warning);
     }
   }
 </style>
