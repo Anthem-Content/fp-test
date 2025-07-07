@@ -35,6 +35,10 @@ function processTitle(text: string): string {
     '<span class="has-text-primary">$1</span>'
   );
 }
+
+function processDescription(text: string): string[] {
+  return text.split('\n').filter(line => line.trim() !== '');
+}
 ---
 
 <section class="section">
@@ -50,7 +54,9 @@ function processTitle(text: string): string {
           text={title ?? ""}
         />
         <div class="content">
-          <p>{description}</p>
+          {processDescription(description).map((line) => (
+            <p>{line}</p>
+          ))}
         </div>
       </div>
 

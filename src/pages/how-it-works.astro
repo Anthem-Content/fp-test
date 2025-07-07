@@ -16,12 +16,12 @@ import siteRefreshImage from "/src/assets/images/how/how-firm-page-works-site-re
 <Layout>
   <Hero
     title="How Your Firm's Managed Website [Works]"
-    description="Welcome to the seamless solution designed to save money, and time while ensuring your website is always up-to-date."
+    description="Experience the confidence of a modern, on-brand website without the hassle. Our all-inclusive service ensures your site evolves with your firm, while you stay focused on what matters most."
     image={heroImage}
   />
   <section class="section">
     <div class="has-background-light pt-6">
-      <div class="container my-6">
+      <!-- <div class="container my-6">
         <Title
           size={2}
           preHeading="The last website you'll ever need"
@@ -29,12 +29,31 @@ import siteRefreshImage from "/src/assets/images/how/how-firm-page-works-site-re
           class="is-2 has-text-centered"
           text="How it works"
         />
-      </div>
+      </div> -->
+
+      <ComparisonList
+      title="Firm Page Vs Traditional Web Designs"
+      subtitle="Experience The Firm Page Difference"
+      items={[
+        {
+          traditional: "Expensive upfront costs",
+          firmPage: "Flat monthly fee",
+        },
+        {
+          traditional: "Maintenance headaches",
+          firmPage: "No maintenance worries",
+        },
+        {
+          traditional: "Outdated designs",
+          firmPage: "Always up-to-date websites",
+        },
+      ]}
+    />
 
       <MediaSplit
         title="Sign Up"
         subtitle="Onboarding Consultation"
-        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        description="Getting started is simple. Sign up and tell us about your business, the clients you serve, and what makes your brand unique. From there, we'll handle everything needed to bring your online presence to life."
         imageSrc={signupImage}
         imageAlt="Sign Up"
         mediaOnRight={false}
@@ -42,7 +61,7 @@ import siteRefreshImage from "/src/assets/images/how/how-firm-page-works-site-re
       <MediaSplit
         title="Building Begins"
         subtitle="We Build Your Website"
-        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        description="Once we understand your goals and establish a clear strategy and visual direction, our team will design and build your site. Most go live in under 30 days."
         imageSrc={buildingImage}
         imageAlt="Sign Up"
         mediaOnRight={true}
@@ -50,7 +69,7 @@ import siteRefreshImage from "/src/assets/images/how/how-firm-page-works-site-re
       <MediaSplit
         title="Full Service"
         subtitle="We Manage Everything"
-        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        description="Your website should evolve as your firm evolves. That's why we manage all ongoing maintenance, handle software and security updates, and make any content or design changes you request, quickly and without extra fees."
         imageSrc={fullServiceImage}
         imageAlt="Sign Up"
         mediaOnRight={false}
@@ -58,31 +77,14 @@ import siteRefreshImage from "/src/assets/images/how/how-firm-page-works-site-re
       <MediaSplit
         title="Site Refresh"
         subtitle="Updated Design"
-        description="Egestas enim id morbi eget. Purus enim etiam pelle ntesque varius proin semper vehicula ornare. Vesti bulum lorem in pharetra, venenatis quam egestas. Feugiat parturient lectus volutpat odio et."
+        description="Your brand should never feel outdated. Every 36 months, we include a full design refresh at no extra cost. From visual upgrades to strategic overhauls, your site will always represent your firm at its best."
         imageSrc={siteRefreshImage}
         imageAlt="Sign Up"
         mediaOnRight={true}
       />
     </div>
   </section>
-  <ComparisonList
-    title="Firm Page Vs Traditional Web Designs"
-    subtitle="WHY IT IS DIFFERENT"
-    items={[
-      {
-        traditional: "Expensive upfront costs",
-        firmPage: "Flat monthly fee",
-      },
-      {
-        traditional: "Maintenance headaches",
-        firmPage: "No maintenance worries",
-      },
-      {
-        traditional: "Outdated designs",
-        firmPage: "Always up-to-date websites",
-      },
-    ]}
-  />
+
 
   <FullCta
     title="Ready To Solve Your Firm's Website Woes?"

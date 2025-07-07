@@ -7,6 +7,7 @@ import TestimonialScroller from "../components/TestimonialScoller.astro";
 import SimpleBoxes from "../components/SimpleBoxes.astro";
 import FullCta from "../components/FullCta.astro";
 import FeatureIcons from "../components/FeatureIcons.astro";
+import MediaSplit from "../components/MediaSplit.astro";
 import { Image } from "astro:assets";
 
 import heroImage from "../assets/images/home/hero.jpg";
@@ -16,22 +17,22 @@ import ctaImage from "../assets/images/home/firm-page-cta.jpg";
 const items = [
   {
     title: "Sign up",
-    description: "You + Us is a match made in heaven.",
+    description: "Tell us about your business and audience, and we'll handle the rest.",
     icon: "fa-circle-1",
   },
   {
-    title: "Get A New Site",
-    description: "Welcome to your hassle-free site.",
+    title: "Launch Fast",
+    description: "Go live with a new professional website in under 30 days.",
     icon: "fa-circle-2",
   },
   {
-    title: "Request Any Updates",
-    description: "Need an update, just ask.",
+    title: "Stay Updated",
+    description: "We manage all maintenance, updates, and content changes for you.",
     icon: "fa-circle-3",
   },
   {
-    title: "Stay Fresh",
-    description: "Get a completely new look every 3 years.",
+    title: "Always Fresh",
+    description: "Get a full website refresh every 36 months to keep things current.",
     icon: "fa-circle-4",
   },
 ];
@@ -126,8 +127,8 @@ const featureItems = [
 <Layout>
   <div>
     <Hero
-      title="Professional Service Websites [Without The Nonsense]"
-      description="Say goodbye to large capital expenses, managing complicated updates, and outdated websites."
+      title="Fully Managed Websites, [Zero Nonsense.]"
+      description="Say goodbye to big upfront costs, tech headaches, update fees, vendor management, and outdated websites—forever."
       image={heroImage}
     />
   </div>
@@ -135,26 +136,33 @@ const featureItems = [
     <div class="has-background-light">
       <div>
         <IconBoxes
-          title="It's pretty easy from here"
-          subtitle="The last website you'll ever need"
+          title="Easy Mode For Your Firm's Website"
+          subtitle="Fully managed professional service websites"
           button={true}
-          buttonText="Learn More About How It Works"
-          buttonLink="/"
+          buttonText="See Examples"
+          buttonLink="/examples/"
           items={items}
         />
       </div>
       <div>
-        <ChecklistSplit
-          subtitle="the last website you'll ever need"
+        <MediaSplit
           title="Why Firm Page?"
-          items={checklistItems}
-          buttonText="Get Started Today"
-          buttonUrl="/contact"
-          showButton={true}
-          mediaOnRight={false}
+          subtitle="the last website you'll ever need"
+          description={`You need a fully-managed solution built for professional service firms—one that reflects your quality, supports your brand, and frees your team to focus on client work.
+
+No big upfront costs. No delays or surprise fees for updates.
+
+Just a high-performing website you can count on, with refreshes every 36 months to keep your presence sharp.
+
+All for one flat monthly fee.`}
           imageSrc={whyImage}
           imageAlt="Why choose Firm Page"
+          mediaOnRight={false}
+          showButton={true}
+          buttonText="Get Started Today"
+          buttonUrl="/contact"
         />
+        
       </div>
     </div>
   </section>
@@ -162,9 +170,9 @@ const featureItems = [
     <div class="container">
       <div>
         <FeatureIcons
-          title="Everything You Need"
-          subtitle="COMPREHENSIVE SOLUTIONS"
-          description="Our all-inclusive website service comes with everything professional service businesses need to succeed online."
+          title="Everything, That's What's Included"
+          subtitle="Hassle-Free, By Design"
+          description="Everything your firm needs, wrapped into one simple monthly fee. We take care of your site, so you can take care of your business."
           showDescriptionOnHover={true}
           items={featureItems}
         />
@@ -175,7 +183,7 @@ const featureItems = [
 
   <div>
     <FullCta
-      title="Don't let your website hold you back"
+      title="Put Your Firm's Website On Easy Mode"
       image={ctaImage}
       link="/contact"
       buttonText="Get a Demo"
