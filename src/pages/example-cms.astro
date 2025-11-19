@@ -1,0 +1,83 @@
+---
+/**
+ * Example page demonstrating Astro Content Collections
+ * This shows how to import and render content from the CMS
+ */
+import { getEntry } from 'astro:content';
+import Layout from "../layouts/Layout.astro";
+
+// Get the home page content from the 'pages' collection
+const home = await getEntry('pages', 'home');
+const { Content } = await home.render();
+---
+
+<Layout>
+  <div class="container">
+    <section class="section">
+      {/* Hero section using frontmatter data */}
+      {home.data.heroImage && (
+        <div class="hero-image">
+          <img src={home.data.heroImage} alt={home.data.title} />
+        </div>
+      )}
+
+      <h1 class="title is-1">{home.data.title}</h1>
+      {home.data.subtitle && (
+        <p class="subtitle is-3">{home.data.subtitle}</p>
+      )}
+
+      {/* Display metadata */}
+      <div class="tags">
+        {home.data.featured && <span class="tag is-warning">Featured</span>}
+        {home.data.published && <span class="tag is-success">Published</span>}
+        {home.data.tags.map(tag => (
+          <span class="tag is-info">{tag}</span>
+        ))}
+      </div>
+
+      {/* Render markdown content */}
+      <div class="content">
+        <Content />
+      </div>
+
+      {/* Author info */}
+      {home.data.author && (
+        <div class="box">
+          <p><strong>Author:</strong> {home.data.author.name}</p>
+          {home.data.author.email && (
+            <p><strong>Contact:</strong> {home.data.author.email}</p>
+          )}
+        </div>
+      )}
+
+      {/* Metadata */}
+      <div class="notification is-light">
+        <p><strong>Layout:</strong> {home.data.layout}</p>
+        {home.data.publishDate && (
+          <p><strong>Published:</strong> {home.data.publishDate.toLocaleDateString()}</p>
+        )}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .hero-image {
+    margin-bottom: 2rem;
+  }
+  
+  .hero-image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .tags {
+    margin: 1rem 0;
+  }
+
+  .content {
+    margin: 2rem 0;
+  }
+</style>
