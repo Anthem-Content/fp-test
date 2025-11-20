@@ -5,7 +5,7 @@ metaDescription: >-
   management, and outdated websites—forever.
 published: true
 hero:
-  title: 'Fully Managed Websites, [All Nonsense.]'
+  title: 'Managed Websites, [All Nonsense.]'
   description__textarea: >-
     Say goodbye to big upfront costs, tech headaches, update fees, vendor
     management, and outdated websites—forever.
