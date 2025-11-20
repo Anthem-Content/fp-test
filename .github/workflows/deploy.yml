@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Build and Deploy
 
 on:
   # Trigger on pushes to main (from CMS commits or manual commits)
@@ -20,9 +20,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    name: Deploy to Cloudflare Pages
+    name: Build Astro Site
 
     # Set permissions for GitHub token
     permissions:
@@ -73,8 +73,9 @@ jobs:
           # Add any build-time environment variables here
           # Example: PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
 
-      # 6. Deploy to Cloudflare Pages
+      # 6. Deploy to Cloudflare Pages (if secrets are configured)
       - name: Deploy to Cloudflare Pages
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
         id: deployment
         uses: cloudflare/pages-action@v1
         with:
@@ -87,7 +88,7 @@ jobs:
 
       # 7. Comment deployment URL on pull requests
       - name: Add deployment URL to PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.deployment.outputs.url
         uses: actions/github-script@v7
         with:
           script: |
@@ -98,10 +99,12 @@ jobs:
               body: `## 🚀 Preview Deployment\n\nYour changes have been deployed to Cloudflare Pages!\n\n**Preview URL:** ${{ steps.deployment.outputs.url }}\n\n---\n*Commit: ${{ github.sha }}*`
             })
 
-      # 8. Output deployment information
-      - name: Output deployment info
-        if: success()
+      # 8. Output build success
+      - name: Build complete
         run: |
-          echo "✅ Deployment successful!"
-          echo "🌐 URL: ${{ steps.deployment.outputs.url }}"
-          echo "📝 Environment: ${{ steps.deployment.outputs.environment }}"
+          echo "✅ Build successful!"
+          if [ -n "${{ steps.deployment.outputs.url }}" ]; then
+            echo "🌐 Deployed to: ${{ steps.deployment.outputs.url }}"
+          else
+            echo "ℹ️  Cloudflare deployment skipped (secrets not configured)"
+          fi
