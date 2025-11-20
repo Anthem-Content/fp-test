@@ -5,7 +5,7 @@ metaDescription: >-
   management, and outdated websites—forever
 published: true
 hero:
-  title: 'Fart Websites, [All Nonsense.]'
+  title: 'All Websites, [All Nonsense.]'
   description__textarea: >-
     Say goodbye to big upfront costs, tech headaches, update fees, vendor
     management, and outdated websites—forever Your Mom.
