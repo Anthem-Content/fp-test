@@ -1,6 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import logo from "../assets/images/logo.svg";
+
+// Get base URL for GitHub Pages support
+const base = import.meta.env.BASE_URL;
 ---
 
 <nav
@@ -10,7 +13,7 @@ import logo from "../assets/images/logo.svg";
 >
   <div class="container is-fluid">
     <div class="navbar-brand">
-      <a class="navbar-item pl-0" href="/">
+      <a class="navbar-item pl-0" href={base}>
         <Image src={logo} alt="firmpage logo" />
       </a>
 
@@ -44,8 +47,8 @@ import logo from "../assets/images/logo.svg";
       <div class="navbar-end">
         <a
           class="navbar-item"
-          href="/how-it-works"
-          aria-current={Astro.url.pathname === "/how-it-works"
+          href={`${base}how-it-works`}
+          aria-current={Astro.url.pathname === `${base}how-it-works`
             ? "page"
             : undefined}
         >
@@ -53,22 +56,22 @@ import logo from "../assets/images/logo.svg";
         </a>
         <a
           class="navbar-item"
-          href="/examples"
-          aria-current={Astro.url.pathname === "/examples" ? "page" : undefined}
+          href={`${base}examples`}
+          aria-current={Astro.url.pathname === `${base}examples` ? "page" : undefined}
         >
           Examples
         </a>
         <a
           class="navbar-item"
-          href="/pricing"
-          aria-current={Astro.url.pathname === "/pricing" ? "page" : undefined}
+          href={`${base}pricing`}
+          aria-current={Astro.url.pathname === `${base}pricing` ? "page" : undefined}
         >
           Pricing
         </a>
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary is-outlined"> Log in </a>
-            <a class="button is-warning" href="/demo"> Get A Demo </a>
+            <a class="button is-warning" href={`${base}demo`}> Get A Demo </a>
           </div>
         </div>
       </div>

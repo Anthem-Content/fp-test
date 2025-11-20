@@ -7,6 +7,9 @@ interface Props {
 }
 
 const { title = "Firm Page" } = Astro.props;
+
+// Get base URL for GitHub Pages support
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -17,18 +20,18 @@ const { title = "Firm Page" } = Astro.props;
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href={`${base}styles/styles.css`} />
     <script
       src="https://kit.fontawesome.com/07074c1575.js"
       crossorigin="anonymous"></script>
     <title>{title}</title>
     <!-- Favicon -->
-    <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="icon" href={`${base}favicon/favicon.ico`} sizes="any" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon/favicon.svg`} />
+    <link rel="icon" type="image/png" href={`${base}favicon/favicon-96x96.png`} sizes="96x96" />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${base}favicon/apple-touch-icon.png`} />
     <meta name="apple-mobile-web-app-title" content="Firm Page" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="manifest" href={`${base}favicon/site.webmanifest`} />
   </head>
   <body>
     <NavBar />
