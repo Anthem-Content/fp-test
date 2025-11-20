@@ -11,7 +11,14 @@ import path from 'node:path';
  * POST: Update markdown file with new frontmatter and body
  *
  * This endpoint allows the CMS to read and write markdown files directly.
+ * Note: For local development only. Returns empty paths for static builds.
  */
+
+// Return empty array for static builds (route won't be generated)
+// This endpoint is only used during local development with `npm run dev`
+export function getStaticPaths() {
+  return [];
+}
 
 export const GET: APIRoute = async ({ params }) => {
   const { collection, slug } = params;

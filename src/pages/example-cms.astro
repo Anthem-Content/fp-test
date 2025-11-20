@@ -7,32 +7,31 @@ import { getEntry } from 'astro:content';
 import Layout from "../layouts/Layout.astro";
 
 // Get the home page content from the 'pages' collection
-const home = await getEntry('pages', 'home');
+const home = await getEntry('pages', 'index');
+if (!home) {
+  throw new Error('Home page content not found at src/content/pages/index.md');
+}
 const { Content } = await home.render();
 ---
 
 <Layout>
   <div class="container">
     <section class="section">
-      {/* Hero section using frontmatter data */}
-      {home.data.heroImage && (
+      {/* Hero section */}
+      {home.data.hero?.image__image && (
         <div class="hero-image">
-          <img src={home.data.heroImage} alt={home.data.title} />
+          <img src={home.data.hero.image__image} alt={home.data.title} />
         </div>
       )}
 
-      <h1 class="title is-1">{home.data.title}</h1>
-      {home.data.subtitle && (
-        <p class="subtitle is-3">{home.data.subtitle}</p>
+      <h1 class="title is-1">{home.data.hero?.title || home.data.title}</h1>
+      {home.data.hero?.description__textarea && (
+        <p class="subtitle is-3">{home.data.hero.description__textarea}</p>
       )}
 
       {/* Display metadata */}
       <div class="tags">
-        {home.data.featured && <span class="tag is-warning">Featured</span>}
         {home.data.published && <span class="tag is-success">Published</span>}
-        {home.data.tags.map(tag => (
-          <span class="tag is-info">{tag}</span>
-        ))}
       </div>
 
       {/* Render markdown content */}
@@ -40,21 +39,10 @@ const { Content } = await home.render();
         <Content />
       </div>
 
-      {/* Author info */}
-      {home.data.author && (
-        <div class="box">
-          <p><strong>Author:</strong> {home.data.author.name}</p>
-          {home.data.author.email && (
-            <p><strong>Contact:</strong> {home.data.author.email}</p>
-          )}
-        </div>
-      )}
-
-      {/* Metadata */}
+      {/* Page metadata */}
       <div class="notification is-light">
-        <p><strong>Layout:</strong> {home.data.layout}</p>
-        {home.data.publishDate && (
-          <p><strong>Published:</strong> {home.data.publishDate.toLocaleDateString()}</p>
+        {home.data.metaDescription && (
+          <p><strong>Description:</strong> {home.data.metaDescription}</p>
         )}
       </div>
     </section>
