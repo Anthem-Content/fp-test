@@ -16,7 +16,17 @@
 
     // Listen for content updates from CMS
     window.addEventListener('message', (event) => {
-      // Security: In production, verify event.origin matches your CMS domain
+      // Security: Verify origin matches CMS domain (production or local dev)
+      const allowedOrigins = [
+        'https://anthem-content.github.io',
+        'http://localhost:5173'
+      ];
+
+      if (!allowedOrigins.includes(event.origin)) {
+        console.warn('[CMS Preview] Rejected message from unauthorized origin:', event.origin);
+        return;
+      }
+
       if (event.data && event.data.type === 'CMS_DATA_UPDATE') {
         console.log('[CMS Preview] Received content update', event.data.data);
         currentData = event.data.data;
