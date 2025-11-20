@@ -45,7 +45,7 @@ whySection:
 
 
     All for one flat monthly fee.
-  image: /src/assets/images/image-1763626471157.WEBP
+  image: /src/assets/images/image-1763628486733-zcdgej.jpg
   imageAlt: Why choose Firm Page
   buttonText: Get Started Today
   buttonUrl: /contact
