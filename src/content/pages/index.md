@@ -3,10 +3,14 @@ title: "FirmPage - Fully Managed Websites for Professional Firms"
 metaDescription: "Say goodbye to big upfront costs, tech headaches, update fees, vendor management, and outdated websites—forever."
 published: true
 
+# Field Type Hints:
+# - Regular fields are auto-detected (short strings = text, long strings = textarea, paths = images)
+# - Add __suffix to override: title__text, description__textarea, image__image, url__url
+
 hero:
   title: "Fully Managed Websites, [Zero Nonsense.]"
-  description: "Say goodbye to big upfront costs, tech headaches, update fees, vendor management, and outdated websites—forever."
-  image: "/src/assets/images/home/hero.jpg"
+  description__textarea: "Say goodbye to big upfront costs, tech headaches, update fees, vendor management, and outdated websites—forever."
+  image__image: "/src/assets/images/home/hero.jpg"
 
 howItWorks:
   title: "Easy Mode For Your Firm's Website"

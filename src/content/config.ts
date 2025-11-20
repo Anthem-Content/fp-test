@@ -2,67 +2,26 @@ import { defineCollection, z } from 'astro:content';
 
 /**
  * Pages Collection
- * Defines the schema for site pages with editable content sections
+ *
+ * Flexible schema that allows any frontmatter structure.
+ * Field types are inferred from suffix hints in the markdown:
+ *
+ * - fieldName__text: Text input (short string)
+ * - fieldName__textarea: Textarea (long text)
+ * - fieldName__image: Image file picker
+ * - fieldName__url: URL input
+ * - fieldName (no suffix): Auto-detected based on content
+ *
+ * The CMS reads the markdown and generates appropriate form fields.
  */
 const pages = defineCollection({
   type: 'content',
   schema: z.object({
-    // Page metadata
+    // Basic page metadata
     title: z.string(),
-    metaDescription: z.string().max(160).optional(),
+    metaDescription: z.string().optional(),
     published: z.boolean().default(true),
-
-    // Hero Section
-    hero: z.object({
-      title: z.string(),
-      description: z.string(),
-      image: z.string(),
-    }),
-
-    // How It Works Section (IconBoxes)
-    howItWorks: z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      buttonText: z.string(),
-      buttonLink: z.string(),
-      items: z.array(z.object({
-        title: z.string(),
-        description: z.string(),
-        icon: z.string(),
-      })),
-    }),
-
-    // Why Section (MediaSplit)
-    whySection: z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      description: z.string(),
-      image: z.string(),
-      imageAlt: z.string(),
-      buttonText: z.string(),
-      buttonUrl: z.string(),
-    }),
-
-    // Features Section (FeatureIcons)
-    features: z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      description: z.string(),
-      items: z.array(z.object({
-        title: z.string(),
-        description: z.string(),
-        icon: z.string(),
-      })),
-    }),
-
-    // CTA Section (FullCta)
-    cta: z.object({
-      title: z.string(),
-      image: z.string(),
-      link: z.string(),
-      buttonText: z.string(),
-    }),
-  })
+  }).passthrough(), // Allow any additional fields without strict validation
 });
 
 export const collections = {

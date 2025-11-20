@@ -19,7 +19,28 @@ const pageData = await getEntry("pages", "index");
 if (!pageData) {
   throw new Error("Failed to load index page data");
 }
-const { hero, howItWorks, whySection, features, cta } = pageData.data;
+
+// Helper to strip type suffixes from field names (__text, __textarea, __image, __url)
+function stripSuffixes(obj: any): any {
+  if (!obj || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(stripSuffixes);
+
+  const cleaned: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const cleanKey = key.replace(/__(text|textarea|image|url)$/, '');
+    cleaned[cleanKey] = typeof value === 'object' ? stripSuffixes(value) : value;
+  }
+  return cleaned;
+}
+
+const rawData = pageData.data;
+const { hero, howItWorks, whySection, features, cta } = {
+  hero: stripSuffixes(rawData.hero),
+  howItWorks: stripSuffixes(rawData.howItWorks),
+  whySection: stripSuffixes(rawData.whySection),
+  features: stripSuffixes(rawData.features),
+  cta: stripSuffixes(rawData.cta),
+};
 ---
 
 <Layout>
