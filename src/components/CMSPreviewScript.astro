@@ -47,11 +47,16 @@
       // Update hero section
       if (data.hero) {
         const heroSection = document.querySelector('[data-cms-section="hero"]');
+        console.log('[CMS Preview] Hero section element:', heroSection);
+
         if (heroSection) {
           // Update h1 title
           const h1 = heroSection.querySelector('h1.title');
+          console.log('[CMS Preview] Found h1:', h1, 'New value:', data.hero.title);
+
           if (h1 && data.hero.title) {
             h1.innerHTML = formatTextWithBrackets(data.hero.title);
+            console.log('[CMS Preview] Updated h1 innerHTML to:', h1.innerHTML);
           }
 
           // Update subtitle if exists
@@ -62,9 +67,14 @@
 
           // Update description paragraph
           const description = heroSection.querySelector('p');
+          console.log('[CMS Preview] Found description:', description, 'New value:', data.hero.description);
+
           if (description && data.hero.description) {
             description.textContent = data.hero.description;
+            console.log('[CMS Preview] Updated description to:', description.textContent);
           }
+        } else {
+          console.warn('[CMS Preview] Hero section not found!');
         }
       }
 
