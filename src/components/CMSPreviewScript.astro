@@ -11,9 +11,6 @@
   if (isPreviewMode) {
     console.log('[CMS Preview] Preview mode activated');
 
-    // Store current content data
-    let currentData = null;
-
     // Listen for content updates from CMS
     window.addEventListener('message', (event) => {
       // Security: Verify origin matches CMS domain (production or local dev)
@@ -29,7 +26,6 @@
 
       if (event.data && event.data.type === 'CMS_DATA_UPDATE') {
         console.log('[CMS Preview] Received content update', event.data.data);
-        currentData = event.data.data;
         updatePageContent(event.data.data);
       }
     });
@@ -46,70 +42,111 @@
     function updatePageContent(data) {
       if (!data) return;
 
-      // Update each section based on data-cms-section attributes
-      Object.keys(data).forEach(sectionKey => {
-        const sectionElement = document.querySelector(`[data-cms-section="${sectionKey}"]`);
-        if (!sectionElement) return;
+      console.log('[CMS Preview] Updating page content with data:', data);
 
-        const sectionData = data[sectionKey];
+      // Update hero section
+      if (data.hero) {
+        const heroSection = document.querySelector('[data-cms-section="hero"]');
+        if (heroSection) {
+          // Update h1 title
+          const h1 = heroSection.querySelector('h1.title');
+          if (h1 && data.hero.title) {
+            h1.innerHTML = formatTextWithBrackets(data.hero.title);
+          }
 
-        // Update title elements
-        const titleElement = sectionElement.querySelector('[data-cms-field="title"]');
-        if (titleElement && sectionData.title) {
-          titleElement.innerHTML = formatTextWithBrackets(sectionData.title);
-        }
+          // Update subtitle if exists
+          const subtitle = heroSection.querySelector('.subtitle');
+          if (subtitle && data.hero.subtitle) {
+            subtitle.textContent = data.hero.subtitle;
+          }
 
-        // Update subtitle elements
-        const subtitleElement = sectionElement.querySelector('[data-cms-field="subtitle"]');
-        if (subtitleElement && sectionData.subtitle) {
-          subtitleElement.innerHTML = formatTextWithBrackets(sectionData.subtitle);
-        }
-
-        // Update description elements
-        const descriptionElement = sectionElement.querySelector('[data-cms-field="description"]');
-        if (descriptionElement && sectionData.description) {
-          descriptionElement.textContent = sectionData.description;
-        }
-
-        // Update button text
-        const buttonElement = sectionElement.querySelector('[data-cms-field="buttonText"]');
-        if (buttonElement && sectionData.buttonText) {
-          buttonElement.textContent = sectionData.buttonText;
-        }
-
-        // Update items/features (arrays)
-        if (sectionData.items && Array.isArray(sectionData.items)) {
-          const itemsContainer = sectionElement.querySelector('[data-cms-field="items"]');
-          if (itemsContainer) {
-            // Find all item elements
-            const itemElements = itemsContainer.querySelectorAll('[data-cms-item]');
-
-            sectionData.items.forEach((item, index) => {
-              if (itemElements[index]) {
-                const itemElement = itemElements[index];
-
-                // Update item title
-                const itemTitle = itemElement.querySelector('[data-cms-item-field="title"]');
-                if (itemTitle && item.title) {
-                  itemTitle.innerHTML = formatTextWithBrackets(item.title);
-                }
-
-                // Update item description
-                const itemDescription = itemElement.querySelector('[data-cms-item-field="description"]');
-                if (itemDescription && item.description) {
-                  itemDescription.textContent = item.description;
-                }
-
-                // Update item icon
-                const itemIcon = itemElement.querySelector('[data-cms-item-field="icon"]');
-                if (itemIcon && item.icon) {
-                  itemIcon.className = item.icon;
-                }
-              }
-            });
+          // Update description paragraph
+          const description = heroSection.querySelector('p');
+          if (description && data.hero.description) {
+            description.textContent = data.hero.description;
           }
         }
-      });
+      }
+
+      // Update howItWorks section
+      if (data.howItWorks) {
+        const section = document.querySelector('[data-cms-section="howItWorks"]');
+        if (section) {
+          const h2 = section.querySelector('h2.title');
+          if (h2 && data.howItWorks.title) {
+            h2.innerHTML = formatTextWithBrackets(data.howItWorks.title);
+          }
+
+          const subtitle = section.querySelector('.subtitle');
+          if (subtitle && data.howItWorks.subtitle) {
+            subtitle.textContent = data.howItWorks.subtitle;
+          }
+        }
+      }
+
+      // Update whySection
+      if (data.whySection) {
+        const section = document.querySelector('[data-cms-section="whySection"]');
+        if (section) {
+          const h2 = section.querySelector('h2.title');
+          if (h2 && data.whySection.title) {
+            h2.innerHTML = formatTextWithBrackets(data.whySection.title);
+          }
+
+          const subtitle = section.querySelector('.subtitle');
+          if (subtitle && data.whySection.subtitle) {
+            subtitle.textContent = data.whySection.subtitle;
+          }
+
+          const description = section.querySelector('p');
+          if (description && data.whySection.description) {
+            description.textContent = data.whySection.description;
+          }
+        }
+      }
+
+      // Update features section
+      if (data.features) {
+        const section = document.querySelector('[data-cms-section="features"]');
+        if (section) {
+          const h2 = section.querySelector('h2.title');
+          if (h2 && data.features.title) {
+            h2.innerHTML = formatTextWithBrackets(data.features.title);
+          }
+
+          const subtitle = section.querySelector('.subtitle');
+          if (subtitle && data.features.subtitle) {
+            subtitle.textContent = data.features.subtitle;
+          }
+
+          const description = section.querySelectorAll('p')[0]; // Get first p tag for description
+          if (description && data.features.description) {
+            description.textContent = data.features.description;
+          }
+        }
+      }
+
+      // Update CTA section
+      if (data.cta) {
+        const section = document.querySelector('[data-cms-section="cta"]');
+        if (section) {
+          const h2 = section.querySelector('h2.title');
+          if (h2 && data.cta.title) {
+            h2.innerHTML = formatTextWithBrackets(data.cta.title);
+          }
+
+          const button = section.querySelector('a.button');
+          if (button && data.cta.buttonText) {
+            button.textContent = data.cta.buttonText;
+          }
+
+          if (button && data.cta.link) {
+            button.href = data.cta.link;
+          }
+        }
+      }
+
+      console.log('[CMS Preview] Page content updated');
     }
 
     // Add click handlers to sections for editor navigation
