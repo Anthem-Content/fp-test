@@ -1,0 +1,147 @@
+# CloudCannon-Style Input Configuration
+# Defines field types for CMS form generation
+# See: https://cloudcannon.com/documentation/articles/configure-your-inputs/
+
+# Page Metadata
+title:
+  type: text
+  label: Page Title
+  comment: The main page title (used in browser tab and SEO)
+
+metaDescription:
+  type: textarea
+  label: Meta Description
+  comment: SEO description (recommended 150-160 characters)
+
+published:
+  type: switch
+  label: Published
+  comment: Show/hide this page on the site
+
+# Hero Component
+hero.title:
+  type: text
+  label: Hero Headline
+  comment: Main headline text (supports [brackets] for highlighting)
+
+hero.description:
+  type: textarea
+  label: Hero Description
+  comment: Subheading or description text
+
+hero.image:
+  type: image
+  label: Hero Background Image
+  comment: Large background image for the hero section
+
+# How It Works Section (IconBoxes)
+howItWorks.title:
+  type: text
+  label: Section Title
+
+howItWorks.subtitle:
+  type: text
+  label: Section Subtitle
+
+howItWorks.buttonText:
+  type: text
+  label: Button Text
+
+howItWorks.buttonLink:
+  type: url
+  label: Button URL
+
+howItWorks.items:
+  type: array
+  label: Process Steps
+
+howItWorks.items[*].title:
+  type: text
+  label: Step Title
+
+howItWorks.items[*].description:
+  type: textarea
+  label: Step Description
+
+howItWorks.items[*].icon:
+  type: text
+  label: Font Awesome Icon Class
+  comment: e.g., fa-circle-1, fa-check, fa-star
+
+# Why Section (MediaSplit)
+whySection.title:
+  type: text
+  label: Section Title
+
+whySection.subtitle:
+  type: text
+  label: Section Subtitle
+
+whySection.description:
+  type: textarea
+  label: Description
+  comment: Supports markdown formatting
+
+whySection.image:
+  type: image
+  label: Section Image
+
+whySection.imageAlt:
+  type: text
+  label: Image Alt Text
+  comment: For accessibility
+
+whySection.buttonText:
+  type: text
+  label: Button Text
+
+whySection.buttonUrl:
+  type: url
+  label: Button URL
+
+# Features Section (FeatureIcons)
+features.title:
+  type: text
+  label: Section Title
+
+features.subtitle:
+  type: text
+  label: Section Subtitle
+
+features.description:
+  type: textarea
+  label: Section Description
+
+features.items:
+  type: array
+  label: Features
+
+features.items[*].title:
+  type: text
+  label: Feature Title
+
+features.items[*].description:
+  type: textarea
+  label: Feature Description
+
+features.items[*].icon:
+  type: text
+  label: Font Awesome Icon Class
+  comment: e.g., fa-paint-brush, fa-robot, fa-server
+
+# CTA Section (FullCta)
+cta.title:
+  type: text
+  label: CTA Title
+
+cta.image:
+  type: image
+  label: CTA Background Image
+
+cta.link:
+  type: url
+  label: CTA Button URL
+
+cta.buttonText:
+  type: text
+  label: Button Text
