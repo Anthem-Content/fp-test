@@ -48,29 +48,33 @@
       if (data.hero) {
         const heroSection = document.querySelector('[data-cms-section="hero"]');
         console.log('[CMS Preview] Hero section element:', heroSection);
+        console.log('[CMS Preview] Hero data:', data.hero);
 
         if (heroSection) {
-          // Update h1 title
+          // Update h1 title (check both with and without suffix)
           const h1 = heroSection.querySelector('h1.title');
-          console.log('[CMS Preview] Found h1:', h1, 'New value:', data.hero.title);
+          const titleValue = data.hero.title__text || data.hero.title;
+          console.log('[CMS Preview] Found h1:', h1, 'New value:', titleValue);
 
-          if (h1 && data.hero.title) {
-            h1.innerHTML = formatTextWithBrackets(data.hero.title);
+          if (h1 && titleValue) {
+            h1.innerHTML = formatTextWithBrackets(titleValue);
             console.log('[CMS Preview] Updated h1 innerHTML to:', h1.innerHTML);
           }
 
           // Update subtitle if exists
           const subtitle = heroSection.querySelector('.subtitle');
-          if (subtitle && data.hero.subtitle) {
-            subtitle.textContent = data.hero.subtitle;
+          const subtitleValue = data.hero.subtitle__text || data.hero.subtitle;
+          if (subtitle && subtitleValue) {
+            subtitle.textContent = subtitleValue;
           }
 
           // Update description paragraph
           const description = heroSection.querySelector('p');
-          console.log('[CMS Preview] Found description:', description, 'New value:', data.hero.description);
+          const descriptionValue = data.hero.description__textarea || data.hero.description;
+          console.log('[CMS Preview] Found description:', description, 'New value:', descriptionValue);
 
-          if (description && data.hero.description) {
-            description.textContent = data.hero.description;
+          if (description && descriptionValue) {
+            description.textContent = descriptionValue;
             console.log('[CMS Preview] Updated description to:', description.textContent);
           }
         } else {
@@ -83,13 +87,15 @@
         const section = document.querySelector('[data-cms-section="howItWorks"]');
         if (section) {
           const h2 = section.querySelector('h2.title');
-          if (h2 && data.howItWorks.title) {
-            h2.innerHTML = formatTextWithBrackets(data.howItWorks.title);
+          const titleValue = data.howItWorks.title__text || data.howItWorks.title;
+          if (h2 && titleValue) {
+            h2.innerHTML = formatTextWithBrackets(titleValue);
           }
 
           const subtitle = section.querySelector('.subtitle');
-          if (subtitle && data.howItWorks.subtitle) {
-            subtitle.textContent = data.howItWorks.subtitle;
+          const subtitleValue = data.howItWorks.subtitle__textarea || data.howItWorks.subtitle;
+          if (subtitle && subtitleValue) {
+            subtitle.textContent = subtitleValue;
           }
         }
       }
@@ -99,18 +105,21 @@
         const section = document.querySelector('[data-cms-section="whySection"]');
         if (section) {
           const h2 = section.querySelector('h2.title');
-          if (h2 && data.whySection.title) {
-            h2.innerHTML = formatTextWithBrackets(data.whySection.title);
+          const titleValue = data.whySection.title__text || data.whySection.title;
+          if (h2 && titleValue) {
+            h2.innerHTML = formatTextWithBrackets(titleValue);
           }
 
           const subtitle = section.querySelector('.subtitle');
-          if (subtitle && data.whySection.subtitle) {
-            subtitle.textContent = data.whySection.subtitle;
+          const subtitleValue = data.whySection.subtitle__text || data.whySection.subtitle;
+          if (subtitle && subtitleValue) {
+            subtitle.textContent = subtitleValue;
           }
 
           const description = section.querySelector('p');
-          if (description && data.whySection.description) {
-            description.textContent = data.whySection.description;
+          const descriptionValue = data.whySection.description__textarea || data.whySection.description;
+          if (description && descriptionValue) {
+            description.textContent = descriptionValue;
           }
         }
       }
@@ -120,18 +129,21 @@
         const section = document.querySelector('[data-cms-section="features"]');
         if (section) {
           const h2 = section.querySelector('h2.title');
-          if (h2 && data.features.title) {
-            h2.innerHTML = formatTextWithBrackets(data.features.title);
+          const titleValue = data.features.title__text || data.features.title;
+          if (h2 && titleValue) {
+            h2.innerHTML = formatTextWithBrackets(titleValue);
           }
 
           const subtitle = section.querySelector('.subtitle');
-          if (subtitle && data.features.subtitle) {
-            subtitle.textContent = data.features.subtitle;
+          const subtitleValue = data.features.subtitle__text || data.features.subtitle;
+          if (subtitle && subtitleValue) {
+            subtitle.textContent = subtitleValue;
           }
 
           const description = section.querySelectorAll('p')[0]; // Get first p tag for description
-          if (description && data.features.description) {
-            description.textContent = data.features.description;
+          const descriptionValue = data.features.description__textarea || data.features.description;
+          if (description && descriptionValue) {
+            description.textContent = descriptionValue;
           }
         }
       }
@@ -141,17 +153,20 @@
         const section = document.querySelector('[data-cms-section="cta"]');
         if (section) {
           const h2 = section.querySelector('h2.title');
-          if (h2 && data.cta.title) {
-            h2.innerHTML = formatTextWithBrackets(data.cta.title);
+          const titleValue = data.cta.title__text || data.cta.title;
+          if (h2 && titleValue) {
+            h2.innerHTML = formatTextWithBrackets(titleValue);
           }
 
           const button = section.querySelector('a.button');
-          if (button && data.cta.buttonText) {
-            button.textContent = data.cta.buttonText;
+          const buttonTextValue = data.cta.buttonText__text || data.cta.buttonText;
+          if (button && buttonTextValue) {
+            button.textContent = buttonTextValue;
           }
 
-          if (button && data.cta.link) {
-            button.href = data.cta.link;
+          const linkValue = data.cta.link__url || data.cta.link;
+          if (button && linkValue) {
+            button.href = linkValue;
           }
         }
       }
