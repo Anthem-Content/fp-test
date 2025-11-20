@@ -33,40 +33,66 @@ const examples = defineCollection({
 
 /**
  * Pages Collection
- * Defines the schema for site pages with various field types
- * to demonstrate CMS input generation capabilities
+ * Defines the schema for site pages with editable content sections
  */
 const pages = defineCollection({
   type: 'content',
   schema: z.object({
-    // Text inputs
+    // Page metadata
     title: z.string(),
-    subtitle: z.string().optional(),
-
-    // Boolean toggles
-    featured: z.boolean().default(false),
+    metaDescription: z.string().max(160).optional(),
     published: z.boolean().default(true),
 
-    // Date picker
-    publishDate: z.date().optional(),
+    // Hero Section
+    hero: z.object({
+      title: z.string(),
+      description: z.string(),
+      image: z.string(),
+    }),
 
-    // Image upload
-    heroImage: z.string().optional(),
+    // How It Works Section (IconBoxes)
+    howItWorks: z.object({
+      title: z.string(),
+      subtitle: z.string(),
+      buttonText: z.string(),
+      buttonLink: z.string(),
+      items: z.array(z.object({
+        title: z.string(),
+        description: z.string(),
+        icon: z.string(),
+      })),
+    }),
 
-    // Tags/array of strings
-    tags: z.array(z.string()).default([]),
+    // Why Section (MediaSplit)
+    whySection: z.object({
+      title: z.string(),
+      subtitle: z.string(),
+      description: z.string(),
+      image: z.string(),
+      imageAlt: z.string(),
+      buttonText: z.string(),
+      buttonUrl: z.string(),
+    }),
 
-    // Select dropdown
-    layout: z.enum(['default', 'wide', 'minimal']).default('default'),
+    // Features Section (FeatureIcons)
+    features: z.object({
+      title: z.string(),
+      subtitle: z.string(),
+      description: z.string(),
+      items: z.array(z.object({
+        title: z.string(),
+        description: z.string(),
+        icon: z.string(),
+      })),
+    }),
 
-    // SEO metadata
-    metaDescription: z.string().max(160).optional(),
-
-    // Author object (nested fields)
-    author: z.object({
-      name: z.string(),
-      email: z.string().email().optional(),
-    }).optional(),
+    // CTA Section (FullCta)
+    cta: z.object({
+      title: z.string(),
+      image: z.string(),
+      link: z.string(),
+      buttonText: z.string(),
+    }),
   })
 });
 
