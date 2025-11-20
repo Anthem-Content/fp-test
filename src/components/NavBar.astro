@@ -47,8 +47,8 @@ const base = import.meta.env.BASE_URL;
       <div class="navbar-end">
         <a
           class="navbar-item"
-          href={`${base}how-it-works`}
-          aria-current={Astro.url.pathname === `${base}how-it-works`
+          href={`${base}/how-it-works`}
+          aria-current={Astro.url.pathname === `${base}/how-it-works`
             ? "page"
             : undefined}
         >
@@ -56,22 +56,22 @@ const base = import.meta.env.BASE_URL;
         </a>
         <a
           class="navbar-item"
-          href={`${base}examples`}
-          aria-current={Astro.url.pathname === `${base}examples` ? "page" : undefined}
+          href={`${base}/examples`}
+          aria-current={Astro.url.pathname === `${base}/examples` ? "page" : undefined}
         >
           Examples
         </a>
         <a
           class="navbar-item"
-          href={`${base}pricing`}
-          aria-current={Astro.url.pathname === `${base}pricing` ? "page" : undefined}
+          href={`${base}/pricing`}
+          aria-current={Astro.url.pathname === `${base}/pricing` ? "page" : undefined}
         >
           Pricing
         </a>
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-primary is-outlined"> Log in </a>
-            <a class="button is-warning" href={`${base}demo`}> Get A Demo </a>
+            <a class="button is-warning" href={`${base}/demo`}> Get A Demo </a>
           </div>
         </div>
       </div>

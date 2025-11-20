@@ -15,7 +15,7 @@ const segments = currentPath
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" "),
-    href: `${base}${segment}`,
+    href: `${base}/${segment}`,
   }));
 
 // Only render if there are multiple segments
