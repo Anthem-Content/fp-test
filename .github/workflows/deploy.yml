@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
   # Trigger on pushes to main (from CMS commits or manual commits)
@@ -9,59 +9,39 @@ on:
   # Allow manual triggering from GitHub UI
   workflow_dispatch:
 
-  # Optional: Trigger on pull requests for preview deployments
-  pull_request:
-    branches:
-      - main
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-# Cancel in-progress deployments for the same branch to save build minutes
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     name: Build Astro Site
-
-    # Set permissions for GitHub token
-    permissions:
-      contents: read
-      deployments: write
-      statuses: write
-      pull-requests: write
-
     steps:
-      # 1. Checkout repository with full history for better caching
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      # 2. Setup Node.js with automatic npm caching
-      # This caches node_modules based on package-lock.json hash
-      # Saves ~2-3 minutes per build when dependencies haven't changed
+      # 2. Setup Node.js with caching
       - name: Setup Node.js with caching
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # 3. Cache Astro build artifacts for incremental builds
-      # Astro only rebuilds changed pages, dramatically speeding up content updates
-      - name: Cache Astro build artifacts
-        uses: actions/cache@v4
-        with:
-          path: |
-            .astro
-            node_modules/.astro
-          key: ${{ runner.os }}-astro-${{ hashFiles('**/package-lock.json', 'astro.config.mjs') }}
-          restore-keys: |
-            ${{ runner.os }}-astro-
+      # 3. Setup Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       # 4. Install dependencies
-      # Uses npm ci for clean, reproducible installs
-      # Will use cached node_modules when package-lock.json hasn't changed
       - name: Install dependencies
         run: npm ci
 
@@ -70,41 +50,21 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          # Add any build-time environment variables here
-          # Example: PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
 
-      # 6. Deploy to Cloudflare Pages (if secrets are configured)
-      - name: Deploy to Cloudflare Pages
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+      # 6. Upload artifact for GitHub Pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    name: Deploy to GitHub Pages
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
         id: deployment
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: 'fp-test'
-          directory: 'dist'
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref || github.ref_name }}
-
-      # 7. Comment deployment URL on pull requests
-      - name: Add deployment URL to PR
-        if: github.event_name == 'pull_request' && steps.deployment.outputs.url
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## 🚀 Preview Deployment\n\nYour changes have been deployed to Cloudflare Pages!\n\n**Preview URL:** ${{ steps.deployment.outputs.url }}\n\n---\n*Commit: ${{ github.sha }}*`
-            })
-
-      # 8. Output build success
-      - name: Build complete
-        run: |
-          echo "✅ Build successful!"
-          if [ -n "${{ steps.deployment.outputs.url }}" ]; then
-            echo "🌐 Deployed to: ${{ steps.deployment.outputs.url }}"
-          else
-            echo "ℹ️  Cloudflare deployment skipped (secrets not configured)"
-          fi
+        uses: actions/deploy-pages@v4
