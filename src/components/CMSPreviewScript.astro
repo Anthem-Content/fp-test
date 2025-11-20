@@ -1,0 +1,161 @@
+---
+// This component activates CMS preview mode when ?cms-preview=true query parameter is present
+// It enables live content updates and bidirectional communication with the CMS editor
+---
+
+<script is:inline>
+  // Only activate preview mode if query parameter is present
+  const urlParams = new URLSearchParams(window.location.search);
+  const isPreviewMode = urlParams.get('cms-preview') === 'true';
+
+  if (isPreviewMode) {
+    console.log('[CMS Preview] Preview mode activated');
+
+    // Store current content data
+    let currentData = null;
+
+    // Listen for content updates from CMS
+    window.addEventListener('message', (event) => {
+      // Security: In production, verify event.origin matches your CMS domain
+      if (event.data && event.data.type === 'CMS_DATA_UPDATE') {
+        console.log('[CMS Preview] Received content update', event.data.data);
+        currentData = event.data.data;
+        updatePageContent(event.data.data);
+      }
+    });
+
+    // Function to format text with bracket highlights
+    function formatTextWithBrackets(text) {
+      if (!text || typeof text !== 'string') return text;
+
+      // Split by brackets and wrap highlighted portions
+      return text.replace(/\[([^\]]+)\]/g, '<span class="has-text-primary">$1</span>');
+    }
+
+    // Function to update page content dynamically
+    function updatePageContent(data) {
+      if (!data) return;
+
+      // Update each section based on data-cms-section attributes
+      Object.keys(data).forEach(sectionKey => {
+        const sectionElement = document.querySelector(`[data-cms-section="${sectionKey}"]`);
+        if (!sectionElement) return;
+
+        const sectionData = data[sectionKey];
+
+        // Update title elements
+        const titleElement = sectionElement.querySelector('[data-cms-field="title"]');
+        if (titleElement && sectionData.title) {
+          titleElement.innerHTML = formatTextWithBrackets(sectionData.title);
+        }
+
+        // Update subtitle elements
+        const subtitleElement = sectionElement.querySelector('[data-cms-field="subtitle"]');
+        if (subtitleElement && sectionData.subtitle) {
+          subtitleElement.innerHTML = formatTextWithBrackets(sectionData.subtitle);
+        }
+
+        // Update description elements
+        const descriptionElement = sectionElement.querySelector('[data-cms-field="description"]');
+        if (descriptionElement && sectionData.description) {
+          descriptionElement.textContent = sectionData.description;
+        }
+
+        // Update button text
+        const buttonElement = sectionElement.querySelector('[data-cms-field="buttonText"]');
+        if (buttonElement && sectionData.buttonText) {
+          buttonElement.textContent = sectionData.buttonText;
+        }
+
+        // Update items/features (arrays)
+        if (sectionData.items && Array.isArray(sectionData.items)) {
+          const itemsContainer = sectionElement.querySelector('[data-cms-field="items"]');
+          if (itemsContainer) {
+            // Find all item elements
+            const itemElements = itemsContainer.querySelectorAll('[data-cms-item]');
+
+            sectionData.items.forEach((item, index) => {
+              if (itemElements[index]) {
+                const itemElement = itemElements[index];
+
+                // Update item title
+                const itemTitle = itemElement.querySelector('[data-cms-item-field="title"]');
+                if (itemTitle && item.title) {
+                  itemTitle.innerHTML = formatTextWithBrackets(item.title);
+                }
+
+                // Update item description
+                const itemDescription = itemElement.querySelector('[data-cms-item-field="description"]');
+                if (itemDescription && item.description) {
+                  itemDescription.textContent = item.description;
+                }
+
+                // Update item icon
+                const itemIcon = itemElement.querySelector('[data-cms-item-field="icon"]');
+                if (itemIcon && item.icon) {
+                  itemIcon.className = item.icon;
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+
+    // Add click handlers to sections for editor navigation
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('[data-cms-section]');
+
+      sections.forEach(section => {
+        // Add visual indicator when hovering in preview mode
+        section.style.cursor = 'pointer';
+        section.style.transition = 'outline 0.2s ease';
+
+        section.addEventListener('mouseenter', () => {
+          section.style.outline = '2px dashed #00d1b2';
+          section.style.outlineOffset = '4px';
+        });
+
+        section.addEventListener('mouseleave', () => {
+          section.style.outline = 'none';
+        });
+
+        section.addEventListener('click', (e) => {
+          const sectionName = section.getAttribute('data-cms-section');
+          console.log('[CMS Preview] Section clicked:', sectionName);
+
+          // Send message to parent CMS window
+          window.parent.postMessage({
+            type: 'CMS_SECTION_CLICKED',
+            section: sectionName
+          }, '*');
+
+          e.stopPropagation();
+        });
+      });
+
+      // Notify parent that preview is ready
+      window.parent.postMessage({
+        type: 'CMS_PREVIEW_READY'
+      }, '*');
+    });
+
+    // Add preview mode indicator
+    const indicator = document.createElement('div');
+    indicator.style.cssText = `
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #00d1b2;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      z-index: 10000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    `;
+    indicator.textContent = 'CMS PREVIEW MODE';
+    document.body.appendChild(indicator);
+  }
+</script>

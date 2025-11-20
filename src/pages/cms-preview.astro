@@ -1,0 +1,361 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import IconBoxes from "../components/IconBoxes.astro";
+import ChecklistSplit from "../components/ChecklistSplit.astro";
+import TestimonialScroller from "../components/TestimonialScoller.astro";
+import SimpleBoxes from "../components/SimpleBoxes.astro";
+import FullCta from "../components/FullCta.astro";
+import FeatureIcons from "../components/FeatureIcons.astro";
+import MediaSplit from "../components/MediaSplit.astro";
+import { getEntry } from "astro:content";
+
+import heroImage from "../assets/images/home/hero.jpg";
+import whyImage from "../assets/images/home/why-firm-page.jpg";
+import ctaImage from "../assets/images/home/firm-page-cta.jpg";
+
+// Get path from query parameter (default to index)
+const url = new URL(Astro.request.url);
+const pagePath = url.searchParams.get("path") || "index";
+
+// Get page content from markdown frontmatter
+const pageData = await getEntry("pages", pagePath);
+if (!pageData) {
+  throw new Error(`Failed to load ${pagePath} page data`);
+}
+
+// Helper to strip type suffixes from field names (__text, __textarea, __image, __url)
+function stripSuffixes(obj: any): any {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripSuffixes);
+
+  const cleaned: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const cleanKey = key.replace(/__(text|textarea|image|url)$/, "");
+    cleaned[cleanKey] =
+      typeof value === "object" ? stripSuffixes(value) : value;
+  }
+  return cleaned;
+}
+
+const rawData = pageData.data;
+const { hero, howItWorks, whySection, features, cta } = {
+  hero: stripSuffixes(rawData.hero),
+  howItWorks: stripSuffixes(rawData.howItWorks),
+  whySection: stripSuffixes(rawData.whySection),
+  features: stripSuffixes(rawData.features),
+  cta: stripSuffixes(rawData.cta),
+};
+---
+
+<Layout>
+  <!-- Hero Section -->
+  <div data-cms-section="hero">
+    <Hero title={hero.title} description={hero.description} image={heroImage} />
+  </div>
+
+  <!-- How It Works Section -->
+  <section class="section" data-cms-section="howItWorks">
+    <div class="has-background-light">
+      <div>
+        <IconBoxes
+          title={howItWorks.title}
+          subtitle={howItWorks.subtitle}
+          button={true}
+          buttonText={howItWorks.buttonText}
+          buttonLink={howItWorks.buttonLink}
+          items={howItWorks.items}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Section -->
+  <section class="section" data-cms-section="whySection">
+    <div class="has-background-light">
+      <div>
+        <MediaSplit
+          title={whySection.title}
+          subtitle={whySection.subtitle}
+          description={whySection.description}
+          imageSrc={whyImage}
+          imageAlt={whySection.imageAlt}
+          mediaOnRight={false}
+          showButton={true}
+          buttonText={whySection.buttonText}
+          buttonUrl={whySection.buttonUrl}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" data-cms-section="features">
+    <div class="container">
+      <div>
+        <FeatureIcons
+          title={features.title}
+          subtitle={features.subtitle}
+          description={features.description}
+          showDescriptionOnHover={true}
+          items={features.items}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section data-cms-section="testimonials">
+    <TestimonialScroller />
+  </section>
+
+  <!-- CTA Section -->
+  <div data-cms-section="cta">
+    <FullCta
+      title={cta.title}
+      image={ctaImage}
+      link={cta.link}
+      buttonText={cta.buttonText}
+    />
+  </div>
+</Layout>
+
+<script>
+  // Generic CMS Preview Script
+  // This script handles postMessage communication with the CMS editor
+
+  // Store current page data
+  let currentData: any = {};
+
+  // Format text with bracket highlights (like Title component)
+  function formatTitleWithHighlights(text: string) {
+    return text.split(/(\[[^\]]+\])/).map((part) => {
+      if (part.startsWith("[") && part.endsWith("]")) {
+        return {
+          text: part.slice(1, -1),
+          highlight: true,
+        };
+      }
+      return {
+        text: part,
+        highlight: false,
+      };
+    });
+  }
+
+  // Listen for data updates from CMS
+  window.addEventListener("message", (event) => {
+    // Security: verify origin (adjust for your CMS URL)
+    if (event.origin !== "http://localhost:5173") return;
+
+    if (event.data.type === "CMS_DATA_UPDATE") {
+      console.log("Received data update from CMS:", event.data.data);
+      currentData = event.data.data;
+      updatePageContent(event.data.data);
+    }
+  });
+
+  // Update page content based on received data
+  function updatePageContent(data: any) {
+    // Helper to get nested property safely
+    const getProp = (obj: any, path: string) => {
+      return path.split(".").reduce((acc, part) => acc?.[part], obj);
+    };
+
+    // Helper to update text content with optional formatting
+    const updateText = (selector: string, value: any, isTitle = false) => {
+      const element = document.querySelector(selector);
+      if (element && value !== undefined && value !== null) {
+        if (isTitle) {
+          // Format titles with bracket highlights
+          const parts = formatTitleWithHighlights(value);
+          element.innerHTML = parts
+            .map((part) =>
+              part.highlight
+                ? `<span class="has-text-primary">${part.text}</span>`
+                : part.text
+            )
+            .join("");
+        } else {
+          element.textContent = value;
+        }
+      }
+    };
+
+    // Helper to update attribute
+    const updateAttr = (selector: string, attr: string, value: any) => {
+      const element = document.querySelector(selector);
+      if (element && value !== undefined && value !== null) {
+        element.setAttribute(attr, value);
+      }
+    };
+
+    // Update Hero section
+    if (data.hero) {
+      updateText(
+        '[data-cms-section="hero"] h1',
+        data.hero.title__text || data.hero.title,
+        true
+      );
+      updateText(
+        '[data-cms-section="hero"] p',
+        data.hero.description__textarea || data.hero.description
+      );
+    }
+
+    // Update How It Works section
+    if (data.howItWorks) {
+      updateText(
+        '[data-cms-section="howItWorks"] h2',
+        data.howItWorks.title__text || data.howItWorks.title,
+        true
+      );
+      updateText(
+        '[data-cms-section="howItWorks"] .subtitle',
+        data.howItWorks.subtitle__textarea || data.howItWorks.subtitle
+      );
+
+      // Update items if they exist
+      if (data.howItWorks.items && Array.isArray(data.howItWorks.items)) {
+        const itemElements = document.querySelectorAll(
+          '[data-cms-section="howItWorks"] .item'
+        );
+        data.howItWorks.items.forEach((item: any, index: number) => {
+          if (itemElements[index]) {
+            const titleEl = itemElements[index].querySelector("h3");
+            const descEl = itemElements[index].querySelector("p");
+            if (titleEl) titleEl.textContent = item.title__text || item.title;
+            if (descEl)
+              descEl.textContent =
+                item.description__textarea || item.description;
+          }
+        });
+      }
+    }
+
+    // Update Why section
+    if (data.whySection) {
+      updateText(
+        '[data-cms-section="whySection"] h2',
+        data.whySection.title__text || data.whySection.title,
+        true
+      );
+      updateText(
+        '[data-cms-section="whySection"] .subtitle',
+        data.whySection.subtitle__textarea || data.whySection.subtitle
+      );
+      updateText(
+        '[data-cms-section="whySection"] p',
+        data.whySection.description__textarea || data.whySection.description
+      );
+    }
+
+    // Update Features section
+    if (data.features) {
+      updateText(
+        '[data-cms-section="features"] h2',
+        data.features.title__text || data.features.title,
+        true
+      );
+      updateText(
+        '[data-cms-section="features"] .subtitle',
+        data.features.subtitle__textarea || data.features.subtitle
+      );
+      updateText(
+        '[data-cms-section="features"] .description',
+        data.features.description__textarea || data.features.description
+      );
+
+      // Update feature items
+      if (data.features.items && Array.isArray(data.features.items)) {
+        const itemElements = document.querySelectorAll(
+          '[data-cms-section="features"] .item'
+        );
+        data.features.items.forEach((item: any, index: number) => {
+          if (itemElements[index]) {
+            const titleEl = itemElements[index].querySelector("h3");
+            const descEl = itemElements[index].querySelector("p");
+            if (titleEl) titleEl.textContent = item.title__text || item.title;
+            if (descEl)
+              descEl.textContent =
+                item.description__textarea || item.description;
+          }
+        });
+      }
+    }
+
+    // Update CTA section
+    if (data.cta) {
+      updateText(
+        '[data-cms-section="cta"] h2',
+        data.cta.title__text || data.cta.title,
+        true
+      );
+      updateText(
+        '[data-cms-section="cta"] a',
+        data.cta.buttonText__text || data.cta.buttonText
+      );
+      updateAttr(
+        '[data-cms-section="cta"] a',
+        "href",
+        data.cta.link__url || data.cta.link
+      );
+    }
+  }
+
+  // Add click handlers to sections to send back to CMS
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("[data-cms-section]");
+
+    sections.forEach((section) => {
+      const sectionName = section.getAttribute("data-cms-section");
+
+      // Make section clickable with visual feedback
+      (section as HTMLElement).style.cursor = "pointer";
+      (section as HTMLElement).style.transition = "outline 0.2s";
+
+      // Hover effect
+      section.addEventListener("mouseenter", () => {
+        (section as HTMLElement).style.outline =
+          "2px solid rgba(59, 130, 246, 0.5)";
+      });
+
+      section.addEventListener("mouseleave", () => {
+        (section as HTMLElement).style.outline = "none";
+      });
+
+      // Click handler
+      section.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        console.log("=== SECTION CLICKED ===");
+        console.log("Section name:", sectionName);
+        console.log("Parent window:", window.parent);
+        console.log("Is iframe:", window !== window.parent);
+
+        // Visual feedback
+        (section as HTMLElement).style.outline = "2px solid rgb(59, 130, 246)";
+        setTimeout(() => {
+          (section as HTMLElement).style.outline = "none";
+        }, 500);
+
+        // Send message to CMS
+        const message = {
+          type: "CMS_SECTION_CLICKED",
+          section: sectionName,
+        };
+        console.log("Sending message to parent:", message);
+        window.parent.postMessage(message, "http://localhost:5173");
+        console.log("Message sent!");
+      });
+    });
+  });
+
+  // Notify parent that preview is ready
+  window.parent.postMessage(
+    {
+      type: "CMS_PREVIEW_READY",
+    },
+    "http://localhost:5173"
+  );
+</script>

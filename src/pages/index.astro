@@ -44,7 +44,7 @@ const { hero, howItWorks, whySection, features, cta } = {
 ---
 
 <Layout>
-  <div>
+  <div data-cms-section="hero">
     <Hero
       title={hero.title}
       description={hero.description}
@@ -53,7 +53,7 @@ const { hero, howItWorks, whySection, features, cta } = {
   </div>
   <section class="section">
     <div class="has-background-light">
-      <div>
+      <div data-cms-section="howItWorks">
         <IconBoxes
           title={howItWorks.title}
           subtitle={howItWorks.subtitle}
@@ -63,7 +63,7 @@ const { hero, howItWorks, whySection, features, cta } = {
           items={howItWorks.items}
         />
       </div>
-      <div>
+      <div data-cms-section="whySection">
         <MediaSplit
           title={whySection.title}
           subtitle={whySection.subtitle}
@@ -81,7 +81,7 @@ const { hero, howItWorks, whySection, features, cta } = {
   </section>
   <section class="section">
     <div class="container">
-      <div>
+      <div data-cms-section="features">
         <FeatureIcons
           title={features.title}
           subtitle={features.subtitle}
@@ -94,7 +94,7 @@ const { hero, howItWorks, whySection, features, cta } = {
   </section>
   <TestimonialScroller />
 
-  <div>
+  <div data-cms-section="cta">
     <FullCta
       title={cta.title}
       image={ctaImage}
