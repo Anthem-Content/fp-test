@@ -2,7 +2,7 @@
 title: test
 metaDescription: >-
   Say goodbye to big upfront costs, tech headaches, update fees, vendor
-  management, and outdated websites—forever.
+  management, and outdated websites—forever
 published: true
 hero:
   title: 'Managed Websites, [All Nonsense.]'
